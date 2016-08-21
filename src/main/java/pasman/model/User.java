@@ -1,6 +1,7 @@
 package pasman.model;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
@@ -8,6 +9,7 @@ import java.util.List;
  */
 @Entity(name = "user")
 @NamedQuery(name = "User.getAll", query = "SELECT u from user u left join fetch u.data")
+@XmlRootElement
 public class User {
     private Integer id;
     private String username;
@@ -17,7 +19,7 @@ public class User {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -66,9 +68,8 @@ public class User {
         if (id != null ? !id.equals(user.id) : user.id != null) return false;
         if (username != null ? !username.equals(user.username) : user.username != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        return name != null ? name.equals(user.name) : user.name == null;
 
-        return true;
     }
 
     @Override
@@ -80,7 +81,7 @@ public class User {
         return result;
     }
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "userdata", schema = "passm",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "data_id", referencedColumnName = "id", nullable = false))

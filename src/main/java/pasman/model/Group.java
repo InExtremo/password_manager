@@ -1,12 +1,14 @@
 package pasman.model;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by Max on 17.08.2016.
  */
 @Entity(name = "usergroup")
 @NamedQuery(name = "Group.getAll", query = "SELECT m from usergroup m")
+@XmlRootElement
 public class Group {
     private Integer idgroup;
     private String userid;
@@ -14,6 +16,7 @@ public class Group {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getIdgroup() {
         return idgroup;
     }
@@ -51,9 +54,8 @@ public class Group {
 
         if (idgroup != null ? !idgroup.equals(group1.idgroup) : group1.idgroup != null) return false;
         if (userid != null ? !userid.equals(group1.userid) : group1.userid != null) return false;
-        if (groupname != null ? !groupname.equals(group1.groupname) : group1.groupname != null) return false;
+        return groupname != null ? groupname.equals(group1.groupname) : group1.groupname == null;
 
-        return true;
     }
 
     @Override

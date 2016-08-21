@@ -1,14 +1,15 @@
 package pasman;
 
-import pasman.POJO.Service;
+import pasman.DAO.DataDao;
+import pasman.DAO.GroupDao;
+import pasman.DAO.UserDao;
 import pasman.model.Data;
 import pasman.model.Group;
 import pasman.model.User;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,37 +24,60 @@ public class MyResource {
      *
      * @return String that will be returned as a text/plain response.
      */
+    DataDao dataDAOService = new DataDao();
+
+    UserDao userDAOService = new UserDao();
+
+    GroupDao groupDAOService = new GroupDao();
+
+    @Path("get")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt() {
-        Service s = new Service<>(Data.class);
-        List<Data> list = s.getAll("Data.getAll");
+        List<Data> list = dataDAOService.getAll();
 
         StringBuffer text = new StringBuffer();
         list.forEach(u -> {
-            text.append(u.getDescription()+" ");
+            text.append(u.getDescription() + " ");
         });
-        Service<User> service2 = new Service<>(User.class);
-        List<User> userses = service2.getAll("User.getAll");
+
+        List<User> userses = userDAOService.getAll();
 
         StringBuffer text2 = new StringBuffer();
 
         userses.forEach(users -> {
-            text2.append(users.getName() + ": \n" );
+            text2.append(users.getName() + ": \n");
             StringBuffer text3 = new StringBuffer();
             users.getData().forEach(data ->
-                    text3.append("\t"+data.getLink()+"; \n"));
+                    text3.append("\t" + data.getLink() + "; \n"));
             text2.append(text3.toString());
         });
 
         StringBuffer gruptext = new StringBuffer();
-        Service<Group> groupService = new Service<>(Group.class);
 
-        List<Group> groups = groupService.getAll("Group.getAll");
+
+        List<Group> groups = groupDAOService.getAll();
         groups.forEach(group -> {
             gruptext.append(group.getGroupName() + " user:" + group.getUserid());
         });
 
-        return text2.toString()+ "\n" +gruptext.toString();
+        return text2.toString() + "\n" + gruptext.toString();
+    }
+
+    @Path("getAll")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList<Data> getAll() {
+        ArrayList<Data> list = (ArrayList<Data>) dataDAOService.getAll();
+        return list;
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Data addData(Data newData) {
+        User max = userDAOService.get(1, User.class);
+        userDAOService.addData(max.getId(), newData);
+        return newData;
     }
 }

@@ -5,9 +5,9 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <!--<class>pasman.POJO.Data</class>-->
         <!--<class>pasman.POJO.Users</class>-->
-        <class>pasman.model.Data</class>
-        <class>pasman.model.Group</class>
-        <class>pasman.model.User</class>
+        <class>pasman.POJOs.Data</class>
+        <class>pasman.POJOs.Group</class>
+        <class>pasman.POJOs.User</class>
 
         <properties>
             <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>

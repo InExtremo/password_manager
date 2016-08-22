@@ -1,4 +1,4 @@
-package pasman.model;
+package pasman.POJOs;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;

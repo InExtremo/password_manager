@@ -20,7 +20,7 @@
 
     <!--<link href="bower_components/mdi/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />-->
 </head>
-<body ng-controller="mainCtrl as ul" layout="column" ngCloak>
+<body ng-controller="mainCtrl as ul" layout="column" ng-cloak>
 
 <md-toolbar layout="row">
     <md-button class="menu" hide-gt-sm ng-click="toggleLeft()" aria-label="Show User List">
@@ -43,7 +43,7 @@
                 class=" md-whiteframe-7dp">
         <md-list ng-click="toggleLeft()">
             <md-list-item ng-repeat="t in types">
-                <md-button href="/{{t.link}}" class="">
+                <md-button href="/{{t.link}}" class="" ng-click="update()" aria-label="{{t.name}}">
                     <md-icon md-svg-src="{{t.avatar}} "></md-icon>
                     {{t.name}}
                 </md-button>

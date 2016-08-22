@@ -2,31 +2,39 @@ package pasman.DAO;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
-
 @Stateless
 public abstract class DAOService<T> {
 
     @PersistenceUnit
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("DEV");//
+    public static EntityManagerFactory emf;
+    @PersistenceContext//(unitName = "DEV")
+    public static EntityManager em;
 
-    @PersistenceContext(unitName = "DEV")
-    public EntityManager em = emf.createEntityManager();
+    protected EntityManager getEM() {
+        if (emf == null) {
+            emf = Persistence.createEntityManagerFactory("DEV");//
+        }
+        if (em == null) {
+            em = emf.createEntityManager();
+        }
+        return em;
+    }
 
     public void add(T car) {
-        em.persist(car);
+        getEM().persist(car);
     }
 
     public void delete(Integer id, Class<T> typeParameterClass) {
-        em.remove(get(id, typeParameterClass));
+        getEM().remove(get(id, typeParameterClass));
     }
 
     public T get(Integer id, Class<T> typeParameterClass) {
-        return em.find(typeParameterClass, id);
+        return getEM().find(typeParameterClass, id);
     }
 
 
     public void update(T object) {
-        em.persist(object);
+        getEM().persist(object);
     }
 
 

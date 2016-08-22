@@ -30,9 +30,12 @@ var myApp = angular.module('myApp', [
             .icon("hangouts", "./assets/svg/hangouts.svg", 512)
             .icon("twitter", "./assets/svg/twitter.svg", 512)
             .icon("phone", "./assets/svg/phone.svg", 512);
-    }]);
+    }]
+);
 
-
+myApp.service('accvalues', function () {
+    this.dataFromrest = [];
+});
 myApp.controller('bookmarksCtrl', [
     '$scope', '$http', '$location',
     function ($scope, $http, $location) {
@@ -46,8 +49,8 @@ myApp.controller('notesCtrl', [
     }
 ]);
 myApp.controller('accountCtrl', [
-    '$scope', '$http', '$location', '$mdBottomSheet', '$log',
-    function ($scope, $http, $location, $mdBottomSheet, $log) {
+    '$scope', '$http', '$location', '$mdBottomSheet', '$log', 'accvalues',
+    function ($scope, $http, $location, $mdBottomSheet, $log, accvalues) {
         // $scope.values = [
         //     {
         //         name: "somename",
@@ -110,9 +113,8 @@ myApp.controller('accountCtrl', [
         //         };
         //     }
         // }$scope.openButtonSheet = openButtonSheet;
-
         $scope.newitem = {
-            id: 0,
+            //id: 0,
             description: "",
             link: "",
             login: "",
@@ -120,7 +122,6 @@ myApp.controller('accountCtrl', [
             password: ""
         };
 
-        $scope.datafromrest = [];
 
         function resetItem() {
             $scope.newitem = {
@@ -141,16 +142,23 @@ myApp.controller('accountCtrl', [
             // $log(item + ' change')
         }
 
-        function addVal() {
-            $scope.datafromrest.push({
-                description: $scope.description,
-                link: $scope.link,
-                login: $scope.login,
-                name: $scope.name,
-                password: $scope.password
-            });
-            alert($scope.datafromrest.length + " " + $scope.datafromrest.length);
-            //resetItem();
+        function addVal(someval) {
+            $http({
+                url: 'http://localhost:8080/pasman/api/',
+                method: "POST",
+                data: someval,
+                headers: {'Content-Type': 'application/json'}
+            })
+                .then(function (response) {
+                        // success
+                        $scope.datafromrest.push(response.data);
+                        resetItem();
+                        $scope.isAdd = false;
+                    },
+                    function (response) { // optional
+                        // failed
+                        alert("Problem with add data");
+                    });
         }
 
         function deleteThis(item, values) {
@@ -163,12 +171,12 @@ myApp.controller('accountCtrl', [
         $scope.init = function () {
             $http.get('http://localhost:8080/pasman/api/getAll').success(function (data) {
                 $scope.datafromrest = data;
-                alert($scope.datafromrest.length);
             }).error(function (data) {
                 alert("Error");
             });
 
         };
+
 
 
         $scope.addVal = addVal;
@@ -227,7 +235,8 @@ myApp.config([
         });
     }
 ]);
-myApp.controller('mainCtrl', function ($scope, $mdSidenav, $log, $timeout) {
+myApp.controller('mainCtrl', ['$scope', '$mdSidenav', '$log', '$timeout', 'accvalues', '$http',
+    function ($scope, $mdSidenav, $log, $timeout, accvalues, $http) {
 
 
         $scope.types = [
@@ -283,5 +292,13 @@ myApp.controller('mainCtrl', function ($scope, $mdSidenav, $log, $timeout) {
             }, 200);
         }
 
-    }
+        $scope.update = function () {
+            $http.get('http://localhost:8080/pasman/api/getAll').success(function (data) {
+                $scope.datafromrest = data;
+            }).error(function (data) {
+                alert("Error");
+            });
+        };
+
+    }]
 );

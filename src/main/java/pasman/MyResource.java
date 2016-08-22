@@ -3,9 +3,9 @@ package pasman;
 import pasman.DAO.DataDao;
 import pasman.DAO.GroupDao;
 import pasman.DAO.UserDao;
-import pasman.model.Data;
-import pasman.model.Group;
-import pasman.model.User;
+import pasman.POJOs.Data;
+import pasman.POJOs.Group;
+import pasman.POJOs.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -77,7 +77,6 @@ public class MyResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Data addData(Data newData) {
         User max = userDAOService.get(1, User.class);
-        userDAOService.addData(max.getId(), newData);
-        return newData;
+        return userDAOService.addData(max.getId(), newData);
     }
 }

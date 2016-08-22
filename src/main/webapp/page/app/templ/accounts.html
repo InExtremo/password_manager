@@ -1,69 +1,15 @@
 <div><h2>Accounts</h2></div>
 <md-subheader class="md-no-sticky ">List of account card</md-subheader>
-<md-button ng-click="init()">update</md-button>
-<!--<md-content class="md-padding " layout-xs="column" layout-gt-md="row" flex="">-->
-<!--<div flex="20%" ng-repeat="val in values"  ng-init="checked=true">&lt;!&ndash;flex-xs flex-gt-xs="60"&ndash;&gt;-->
-<!--<input type="checkbox" ng-model="checked" />-->
-<!--<md-card > &lt;!&ndash;md-theme="dark-blue"&ndash;&gt;-->
-<!--<img ng-src="http://{{val.link}}/favicon.ico" flex-gt-xs="40" flex-sm="60" alt="Washed Out" class="avatar" style="margin: auto;">-->
-<!--<md-card-title>-->
-<!--<md-card-title-text>-->
-<!--<span class="md-headline" >-->
-<!--<b>-->
-<!--<h2>{{val.name}}</h2>-->
-<!--</b>-->
-<!--</span>-->
-<!--</md-card-title-text>-->
-<!--</md-card-title>-->
-<!--<md-card-content ng-if="checked">-->
-<!--<p>-->
-<!--Link: {{val.link}}-->
-<!--</p>-->
-<!--<p>-->
-<!--Login: {{val.login}}-->
-<!--</p>-->
-<!--<p>-->
-<!--Password: {{val.pass}}-->
-<!--</p>-->
-<!--</md-card-content>-->
-<!--<div ng-if="!checked">-->
-<!--<md-card-content >-->
-<!--<md-input-container class="md-block" flex-gt-sm>-->
-<!--<label>Link:</label>-->
-<!--<input ng-model="val.link">-->
-<!--</md-input-container>-->
-<!--<md-input-container class="md-block" flex-gt-sm>-->
-<!--<label>Login:</label>-->
-<!--<input ng-model="val.login">-->
-<!--</md-input-container>-->
-<!--<md-input-container class="md-block" flex-gt-sm>-->
-<!--<label>Login:</label>-->
-<!--<input ng-model="val.pass">-->
-<!--</md-input-container>-->
-<!--</md-card-content>-->
-<!--</div>-->
-
-<!--<md-card-actions layout="row" layout-align="end center">-->
-<!--<md-button class="md-icon-button" aria-label="Favorite">-->
-<!--<md-icon md-svg-icon="assets/img/icons/favorite.svg"></md-icon>-->
-<!--</md-button>-->
-<!--<md-button class="md-icon-button" aria-label="Settings"">-->
-<!--<md-icon md-svg-icon="assets/img/icons/menu.svg" ></md-icon>-->
-<!--</md-button>-->
-<!--<md-button class="md-icon-button" aria-label="Share">-->
-<!--<md-icon md-svg-icon="assets/img/icons/share-arrow.svg"></md-icon>-->
-<!--</md-button>-->
-<!--</md-card-actions>-->
-<!--</md-card>-->
-<!--</div>-->
-
-<!--</md-content>-->
+<div>
+    <md-input-container>
+        <label>Search:</label>
+        <input ng-model="query" type="text">
+    </md-input-container>
+</div>
 <div ng-cloak>
-
     <md-content class="md-padding" layout-xs="column" layout="row">
         <div flex-xs flex-gt-xs="50" layout="column">
-            <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch
-                     ng-repeat="val in datafromrest" md-whiteframe="7">
+            <md-card md-theme-watch ng-repeat="val in datafromrest | filter:{$:query}" md-whiteframe="7">
                 <md-card-title>
                     <md-card-title-text>
                         <!--<input type="checkbox" ng-model="checked"/>-->
@@ -94,30 +40,31 @@
 
                         <md-card-content ng-if="!editval">
                             <p>
-                                Link: {{val.link}}
+                                <b>Link:</b> {{val.link}}
                             </p>
                             <p>
-                                Login: {{val.login}}
+                                <b>Login:</b> {{val.login}}
                             </p>
                             <p>
-                                Password: {{val.password}}
+                                <b>Password:</b> {{val.password}}
                             </p>
                             <p>
-                                Description: {{val.description}}
+                                <b>Description:</b> {{val.description}}
                             </p>
                         </md-card-content>
                     </md-card-title-text>
                     <md-card-title-media>
-                        <div class="md-media-sm card-media">
+                        <div class="md-media-sm card-media" md-whiteframe="7">
                             <img ng-src="http://{{val.link}}/favicon.ico">
                         </div>
                     </md-card-title-media>
                 </md-card-title>
                 <md-card-actions layout="row" layout-align="end center">
-                    <md-button class="md-raised md-primary"
+                    <md-button class="md-raised md-primary" md-whiteframe="7"
                                ng-click="editval = togleitem(editval); $log.info('editing '+editval)">Edit
                     </md-button>
-                    <md-button class="md-warn md-raised md-hue-2" ng-click="deleteThis(val, datafromrest)">Delete
+                    <md-button class="md-warn md-raised md-hue-2" md-whiteframe="7"
+                               ng-click="deleteThis(val, datafromrest)">Delete
                     </md-button>
                 </md-card-actions>
             </md-card>
@@ -133,7 +80,7 @@
                 </md-button>
             </md-card>
 
-            <md-card md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" ng-init="newitem" ng-if="ac.isAdd"
+            <md-card ng-init="newitem" ng-if="ac.isAdd"
                      md-whiteframe="7">
                 <md-card-title>
                     <md-card-title-text>
@@ -168,12 +115,15 @@
                 </md-card-title>
                 <md-card-actions layout="row" layout-align="end center">
                     <md-button class="md-raised md-primary"
-                               ng-click="addVal(); $log.info('clic '+ datafromrest.length)">ADD
+                               ng-click="addVal(newitem); $log.info('clic '+ datafromrest.length)">ADD
                     </md-button>
                     <md-button class="md-warn md-raised md-hue-2"
                                ng-click="ac.isAdd = togleitem(ac.isAdd); resetItem()">Cancel
                     </md-button>
                 </md-card-actions>
+            </md-card>
+            <md-card md-whiteframe="7">
+                <md-button ng-click="init()" style="background-color: #0fcc63">update</md-button>
             </md-card>
 
             <!--<div layout layout-padding layout-align="center end" style="height:200px">-->

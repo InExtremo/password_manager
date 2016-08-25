@@ -68,13 +68,7 @@
     <div class="loader-section section-right"></div>
 
 </div>
-<md-toolbar layout="row">
-    <md-button class="menu" hide-gt-sm ng-click="toggleLeft()" aria-label="Show User List">
-        <md-icon md-svg-icon="menu"></md-icon>
-    </md-button>
 
-    <h3> REST client</h3>
-</md-toolbar>
 <!--<ul>-->
 <!--&lt;!&ndash;<li><a href="#home">Home</a></li>&ndash;&gt;-->
 <!--&lt;!&ndash;<li><a href="#news">News</a></li>&ndash;&gt;-->
@@ -84,10 +78,26 @@
 <!--</li>-->
 <!--<li style="float:right"><a class="active" href="#about">Login</a></li>-->
 <!--</ul>-->
+
+<md-toolbar layout="row">
+    <md-button class="menu" hide-gt-sm ng-click="toggleLeft()" aria-label="Show User List">
+        <md-icon md-svg-icon="menu"></md-icon>
+    </md-button>
+    <h3> Password manager</h3>
+</md-toolbar>
 <div layout="row" flex>
     <md-sidenav md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" ng-click="toggleLeft()"
                 class=" md-whiteframe-7dp">
+        <md-card class="red">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">{{thisuser.name}}</span>
+                    <span class="md-subhead">{{thisuser.username}}</span>
+                </md-card-header-text>
+            </md-card-header>
+        </md-card>
         <md-list ng-click="toggleLeft()">
+
             <md-list-item ng-repeat="t in types">
                 <md-button href="/{{t.link}}" class="" ng-click="update()" aria-label="{{t.name}}">
                     <md-icon md-svg-src="{{t.avatar}} "></md-icon>
@@ -97,7 +107,7 @@
         </md-list>
     </md-sidenav>
 
-    <md-content id="content" flex>
+    <md-content id="content" layout-margin flex>
         <div class="container-fluid ">
 
             <ng-view></ng-view>

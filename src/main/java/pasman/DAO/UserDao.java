@@ -42,7 +42,7 @@ public class UserDao {
         }
     }
 
-    public void delete(Integer id, Class<User> typeParameterClass) {
+    public void delete(Integer id) {
         EntityManager em = emf.createEntityManager();
         try {
             em.remove(get(id, User.class));
@@ -106,5 +106,39 @@ public class UserDao {
             em.close();
         }
         return data;
+    }
+
+    public void deleteData(Integer userID, Integer dataId) {
+        EntityManager em = emf.createEntityManager();
+        User user = null;
+        try {
+            em.getTransaction().begin();
+            Data deletedData = em.find(Data.class, dataId);
+            user = get(userID, User.class);
+            user.getData().removeIf(data -> data.getId() == dataId);
+            em.merge(user);
+            em.remove(deletedData);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+
+    public User findWithName(String name) {
+        EntityManager em = emf.createEntityManager();
+        User user = null;
+        try {
+            em.getTransaction().begin();
+            user = (User) em.createQuery(
+                    "SELECT u FROM user u WHERE u.username = :userName")
+                    .setParameter("userName", name)
+                    .setMaxResults(1)
+                    .getSingleResult();
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return user;
+
     }
 }

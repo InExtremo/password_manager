@@ -1,61 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--[if lt IE 7]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet"
-          href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
-</head>
-<body>
+    <base href="http://localhost:8080/pasman/"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My AngularJS App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<div ng-app="BlankApp" ng-controller="AppCtrl" layout="column" layout-align="center center" layout-fill="layout-fill">
-    <div layout="column" class="loginBox md-whiteframe-z1">
-        <md-toolbar>
-            <h2 class="md-toolbar-tools"><span>Login</span></h2>
-        </md-toolbar>
-        <md-content layout="column" class="md-padding">
-            <md-input-container>
-                <label>EmailAddress</label>
-                <input type="email" ng-model="username"/>
-            </md-input-container>
-            <md-input-container>
-                <label>Password</label>
-                <input type="password" ng-model="password"/>
-            </md-input-container>
-            <div layout="row" layout-align="center center" style="padding-top:20px;">
-                <md-button class="md-raised md-primary">Login</md-button>
-                <div flex="flex"></div>
-                <md-button href="" md-no-ink="md-no-ink">Forgot Password</md-button>
-            </div>
-        </md-content>
+    <link rel="stylesheet" href="page/app/bower_components/html5-boilerplate/dist/css/normalize.css">
+    <link rel="stylesheet" href="page/app/bower_components/html5-boilerplate/dist/css/main.css">
+    <link rel="stylesheet" href="login.css">
+    <script src="page/app/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+
+    <link rel='stylesheet prefetch'
+          href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css'>
+    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+    <link rel="stylesheet" href="page/app/bower_components/angular-material/angular-material.css">
+</head>
+<body ng-cloak ng-controller="mainCtrl">
+
+<div layout="row" layout-align="center center">
+    <div>
+        <md-card md-whiteframe="9">
+            <img ng-src="res/lock.png" class="md-card-image" alt="Washed Out">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Welcome</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <md-input-container md-no-float class="md-block">
+                    <label>Email</label>
+                    <input ng-model="user.email" type="email">
+                </md-input-container>
+                <md-input-container md-no-float class="md-block">
+                    <label>Password</label>
+                    <input ng-model="user.password" type="password">
+                </md-input-container>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button style="background-color: #3fa86b" ng-click="Login(user)">Login</md-button>
+                <md-button style="background-color: #e76729">Sign up</md-button>
+            </md-card-actions>
+        </md-card>
     </div>
 </div>
 
+
+<script src="page/app/bower_components/angular/angular.js"></script>
+<script src="page/app/bower_components/angular-route/angular-route.js"></script>
+<script src="login.js"></script>
+
+<script src="page/app/components/version/version.js"></script>
+<script src="page/app/components/version/version-directive.js"></script>
+<script src="page/app/components/version/interpolate-filter.js"></script>
+
+
 <!-- Angular Material requires Angular.js Libraries -->
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
+
+<script src="page/app/bower_components/angular-animate/angular-animate.js"></script>
+<script src="page/app/bower_components/angular-aria/angular-aria.js"></script>
+<script src="page/app/bower_components/angular-messages/angular-messages.js"></script>
 
 <!-- Angular Material Library -->
-<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"/>
-<!-- Your application bootstrap  -->
-<script type="text/javascript">
-    /**
-     * You must include the dependency on 'ngMaterial'
-     */
-    angular.module('BlankApp', ['ngMaterial']);
-</script>
-<link rel="stylesheet" href="login.css">
-<!--<script>-->
-<!--var app = angular.module('MyApp', [-->
-<!--'ngMaterial',-->
-<!--])-->
+<script src="page/app/bower_components/angular-material/angular-material.js"></script>
 
-<!--.controller('AppCtrl', function($scope){-->
-
-<!--});-->
-<!--</script>-->
 
 </body>
 </html>

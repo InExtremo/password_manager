@@ -166,7 +166,20 @@ myApp.controller('accountCtrl', [
         }
 
         function deleteThis(item, values) {
-            values.splice(values.indexOf(item), 1);
+            $scope.gettingData = false;
+            $http({
+                url: 'http://localhost:8080/pasman/api/delete/' + item.id,
+                method: "DELETE",
+                headers: {'Content-Type': 'application/json'}
+            }).then(function (response) {
+                    // success
+                    values.splice(values.indexOf(item), 1);
+                    $scope.gettingData = true;
+                },
+                function (response) { // optional
+                    // failed
+                    alert("Problem with add data");
+                });
         }
 
 
@@ -327,12 +340,18 @@ myApp.controller('mainCtrl', ['$scope', '$mdSidenav', '$log', '$timeout', 'accva
             }, 200);
         }
 
+        $scope.thisuser = {};
+        $http.get('http://localhost:8080/pasman/api/user').success(function (data) {
+            $scope.thisuser = data;
+        }).error(function (data) {
+            alert("Error");
+        });
         /*  $scope.update = function () {
-            $http.get('http://localhost:8080/pasman/api/getAll').success(function (data) {
-                $scope.datafromrest = data;
-            }).error(function (data) {
-                alert("Error");
-            });
+         $http.get('http://localhost:8080/pasman/api/getAll').success(function (data) {
+         $scope.datafromrest = data;
+         }).error(function (data) {
+         alert("Error");
+         });
          };*/
 
     }]

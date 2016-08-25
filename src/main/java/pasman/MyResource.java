@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,17 +69,17 @@ public class MyResource {
     @Path("getAll")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList<Data> getAll() {
-        ArrayList<Data> list = (ArrayList<Data>) dataDAOService.getAll();
-        return list;
+    public List<Data> getAll(@Context HttpServletRequest servletRequest) {
+        User user = userDAOService.findWithName(servletRequest.getRemoteUser());
+        return user.getData();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Data addData(Data newData) {
-        User max = userDAOService.get(1, User.class);
-        return userDAOService.addData(max.getId(), newData);
+    public Data addData(Data newData, @Context HttpServletRequest servletRequest) {
+        User user = userDAOService.findWithName(servletRequest.getRemoteUser());
+        return userDAOService.addData(user.getId(), newData);
     }
 
     @PUT
@@ -90,4 +89,21 @@ public class MyResource {
     public Data updateData(@PathParam("id") Integer id, Data newData) {
         return dataDAOService.update(id, newData);
     }
+
+    @DELETE
+    @Path("delete/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public void deleteData(@PathParam("id") Integer id, @Context HttpServletRequest servletRequest) {
+        User user = userDAOService.findWithName(servletRequest.getRemoteUser());
+        userDAOService.deleteData(user.getId(), id);
+    }
+
+    @GET
+    @Path("user")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getCurrentUser(@Context HttpServletRequest servletRequest) {
+        User user = userDAOService.findWithName(servletRequest.getRemoteUser());
+        return user;
+    }
+
 }

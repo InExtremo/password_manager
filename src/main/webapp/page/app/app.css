@@ -56,3 +56,7 @@ md-toolbar h3 {
     color: #FB8C00;
 }
 
+.preloader {
+    padding: 50px;
+    background: url('assets/img/Preloader_3.gif') no-repeat 50% 50% transparent;
+}

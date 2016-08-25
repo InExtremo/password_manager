@@ -135,14 +135,17 @@ myApp.controller('accountCtrl', [
             // return false;
         }
 
-        $scope.editval = false;
 
-        function togleitem(item) {
-            return item ? false : true;
-            // $log(item + ' change')
+        function togleitem() {
+            $scope.isAdd = !$scope.isAdd;
+        }
+
+        function edit(someitem) {
+            return !someitem;
         }
 
         function addVal(someval) {
+            $scope.gettingData = false;
             $http({
                 url: 'http://localhost:8080/pasman/api/',
                 method: "POST",
@@ -151,9 +154,10 @@ myApp.controller('accountCtrl', [
             })
                 .then(function (response) {
                         // success
-                        $scope.datafromrest.push(response.data);
+                        $scope.dataFromrest.push(response.data);
                         resetItem();
                         $scope.isAdd = false;
+                        $scope.gettingData = true;
                     },
                     function (response) { // optional
                         // failed
@@ -165,25 +169,56 @@ myApp.controller('accountCtrl', [
             values.splice(values.indexOf(item), 1);
         }
 
-        //add menu
-        $scope.isAdd = false;
 
         $scope.init = function () {
+            $scope.gettingData = false;
             $http.get('http://localhost:8080/pasman/api/getAll').success(function (data) {
-                $scope.datafromrest = data;
+                $scope.dataFromrest = data;
+                $scope.gettingData = true;
             }).error(function (data) {
                 alert("Error");
             });
 
         };
 
+        $scope.updateData = function (value) {
+            $scope.gettingData = false;
+            $http({
+                url: 'http://localhost:8080/pasman/api/' + value.id + '',
+                method: "PUT",
+                data: value,
+                headers: {'Content-Type': 'application/json'}
+            })
+                .then(function (response) {
+                        // succes
+                        $scope.editval = false;
+                        $scope.gettingData = true;
+                    },
+                    function (response) { // optional
+                        // failed
+                        alert("Problem update data");
+                    });
+        };
 
 
+        $scope.editval = false;
+        //add menu
+        $scope.isAdd = false;
+        $scope.gettingData = false;
         $scope.addVal = addVal;
         $scope.togleitem = togleitem;
         $scope.$log = $log;
         $scope.deleteThis = deleteThis;
         $scope.resetItem = resetItem;
+        $scope.edit = edit;
+
+        $http.get('http://localhost:8080/pasman/api/getAll').success(function (data) {
+            $scope.dataFromrest = data;
+            $scope.gettingData = true;
+        }).error(function (data) {
+            alert("Error");
+        });
+
     }
 
 
@@ -292,13 +327,13 @@ myApp.controller('mainCtrl', ['$scope', '$mdSidenav', '$log', '$timeout', 'accva
             }, 200);
         }
 
-        $scope.update = function () {
+        /*  $scope.update = function () {
             $http.get('http://localhost:8080/pasman/api/getAll').success(function (data) {
                 $scope.datafromrest = data;
             }).error(function (data) {
                 alert("Error");
             });
-        };
+         };*/
 
     }]
 );

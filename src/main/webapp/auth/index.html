@@ -8,9 +8,9 @@
     <meta name="description" content="Custom Login Form Styling with CSS3"/>
     <meta name="keywords" content="css3, login, form, custom, input, submit, button, html5, placeholder"/>
     <meta name="author" content="Codrops"/>
-    <link rel="shortcut icon" href="../favicon.ico">
-    <link rel="stylesheet" type="text/css" href="css/style.css"/>
-    <script src="js/modernizr.custom.63321.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="http://localhost:8080/pasman/auth/css/style.css"/>
+    <script src="http://localhost:8080/pasman/auth/js/modernizr.custom.63321.js"></script>
     <!--[if lte IE 7]>
     <style>.main {
         display: none;
@@ -23,17 +23,6 @@
 <body>
 <div class="container">
 
-    <!-- Codrops top bar -->
-    <div class="codrops-top">
-        <a href="http://tympanus.net/Tutorials/RealtimeGeolocationNode/">
-            <strong>&laquo; Previous Demo: </strong>Real-Time Geolocation Service with Node.js
-        </a>
-        <span class="right">
-                    <a href="http://tympanus.net/codrops/?p=11372">
-                        <strong>Back to the Codrops Article</strong>
-                    </a>
-                </span>
-    </div><!--/ Codrops top bar -->
 
     <header>
 
@@ -55,18 +44,36 @@
     </header>
 
     <section class="main">
-        <form class="form-1">
+
+
+        <form class="form-1" method="POST" action="j_security_check">
             <p class="field">
-                <input type="text" name="login" placeholder="Username or email">
+                <input type="text" nname="j_username" placeholder="Username or email">
                 <i class="icon-user icon-large"></i>
             </p>
             <p class="field">
-                <input type="password" name="password" placeholder="Password">
+                <input type="password" type="password" name="j_password">
                 <i class="icon-lock icon-large"></i>
             </p>
             <p class="submit">
-                <button type="submit" name="submit"><i class="icon-arrow-right icon-large"></i></button>
+                <button type="submit" value="Login" name="submit"><i class="icon-arrow-right icon-large"></i></button>
             </p>
+        </form>
+
+        <form class="form-1" method="POST" action="j_security_check">
+            <p class="field">
+                Username: <input type="text" name="j_username"/>
+                <i class="icon-user icon-large"></i>
+            </p>
+            <p class="field">
+                Password: <input type="password" name="j_password"/>
+            </p>
+            <p class="submit">
+                <br/>
+            <p class="submit">
+                <input type="submit" value="Login"/>
+            </p>
+            <input type="reset" value="Reset"/>
         </form>
     </section>
 </div>

@@ -7,7 +7,9 @@ import pasman.POJOs.Data;
 import pasman.POJOs.Group;
 import pasman.POJOs.User;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +32,10 @@ public class MyResource {
 
     GroupDao groupDAOService = new GroupDao();
 
-    @Path("get")
+    @Path("getSomeTrash")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String getIt() {
+    public String getIt(@Context HttpServletRequest servletRequest) {
         List<Data> list = dataDAOService.getAll();
 
         StringBuffer text = new StringBuffer();
@@ -61,7 +63,8 @@ public class MyResource {
             gruptext.append(group.getGroupName() + " user:" + group.getUserid());
         });
 
-        return text2.toString() + "\n" + gruptext.toString();
+
+        return text2.toString() + "\n" + gruptext.toString() + "   " + servletRequest.getRemoteUser();
     }
 
     @Path("getAll")
@@ -78,5 +81,13 @@ public class MyResource {
     public Data addData(Data newData) {
         User max = userDAOService.get(1, User.class);
         return userDAOService.addData(max.getId(), newData);
+    }
+
+    @PUT
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Data updateData(@PathParam("id") Integer id, Data newData) {
+        return dataDAOService.update(id, newData);
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Max on 17.08.2016.
  */
 @Entity(name = "user")
-@NamedQuery(name = "User.getAll", query = "SELECT u from user u left join fetch u.data")
+@NamedQuery(name = "User.getAll", query = "SELECT u from user u") //left join fetch u.data
 @XmlRootElement
 public class User {
     private Integer id;

@@ -98,8 +98,8 @@
         </md-card>
         <md-list ng-click="toggleLeft()">
 
-            <md-list-item ng-repeat="t in types">
-                <md-button href="/{{t.link}}" class="" ng-click="update()" aria-label="{{t.name}}">
+            <md-list-item ng-repeat="t in types" ng-cloak>
+                <md-button href="/{{t.link}}" aria-label="{{t.name}}">
                     <md-icon md-svg-src="{{t.avatar}} "></md-icon>
                     {{t.name}}
                 </md-button>

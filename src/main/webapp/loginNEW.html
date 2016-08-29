@@ -11,24 +11,28 @@
     <base href="http://localhost:8080/pasman/"/>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>My AngularJS App</title>
+    <title>Welcome to Password Manager</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="page/app/bower_components/html5-boilerplate/dist/css/normalize.css">
-    <link rel="stylesheet" href="page/app/bower_components/html5-boilerplate/dist/css/main.css">
-    <link rel="stylesheet" href="login.css">
-    <script src="page/app/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+    <link rel="stylesheet" href="res/bower_components/html5-boilerplate/dist/css/normalize.css">
+    <link rel="stylesheet" href="res/bower_components/html5-boilerplate/dist/css/main.css">
+    <link rel="stylesheet" href="res/login.css">
+    <script src="res/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 
-    <link rel='stylesheet prefetch'
-          href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css'>
+    <!--<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.css'>-->
     <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
-    <link rel="stylesheet" href="page/app/bower_components/angular-material/angular-material.css">
+    <link rel="stylesheet" href="res/bower_components/angular-material/angular-material.css">
+
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+
 </head>
-<body ng-cloak ng-controller="mainCtrl">
+<body ng-cloak ng-controller="mainCtrl as ctrl" class="background">
 
 <div layout="row" layout-align="center center">
-    <div>
+    <div ng-hide="sign">
         <md-card md-whiteframe="9">
             <img ng-src="res/lock.png" class="md-card-image" alt="Washed Out">
             <md-card-title>
@@ -39,39 +43,102 @@
             <md-card-content>
                 <md-input-container md-no-float class="md-block">
                     <label>Email</label>
-                    <input ng-model="user.email" type="email">
+                    <md-icon><i class="material-icons">account_box</i></md-icon>
+                    <input ng-model="user.j_username" type="email" name="j_username">
                 </md-input-container>
                 <md-input-container md-no-float class="md-block">
                     <label>Password</label>
-                    <input ng-model="user.password" type="password">
+                    <md-icon><i class="material-icons">lock_open</i></md-icon>
+                    <input ng-model="user.j_password" type="password" name="j_password">
                 </md-input-container>
             </md-card-content>
             <md-card-actions layout="row" layout-align="end center">
-                <md-button style="background-color: #3fa86b" ng-click="Login(user)">Login</md-button>
-                <md-button style="background-color: #e76729">Sign up</md-button>
+                <md-button style="background-color: #3fa86b" ng-click="Login2(user)">Login</md-button>
+                <md-button style="background-color: #e76729" ng-click="SignUP()">Sign up</md-button>
             </md-card-actions>
         </md-card>
     </div>
+    <div ng-show="sign">
+        <form name="formSign">
+            <md-card md-whiteframe="14">
+                <img ng-src="res/washedout.png" class="md-card-image" alt="Washed Out">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline" layout-align="center">Register</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-content>
+                    <md-input-container md-no-float class="md-block">
+                        <label>Input valid Email</label>
+                        <md-icon><i class="material-icons">email</i></md-icon>
+                        <input ng-model="reguser.username" type="email">
+                    </md-input-container>
+                    <md-input-container md-no-float class="md-block">
+                        <label>Name</label>
+                        <md-icon><i class="material-icons">account_box</i></md-icon>
+                        <input required name="name" md-maxlength="30" ng-model="reguser.name" type="text">
+                        <div ng-messages="formSign.name.$error">
+                            <div ng-message="required">Name is required.</div>
+                            <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+                            <!--<div ng-message="ng-minlength">OMG, so min</div>-->
+                        </div>
+                    </md-input-container>
+                    <md-input-container md-no-float class="md-block">
+                        <label>Password</label>
+                        <md-icon><i class="material-icons">lock_outline</i></md-icon>
+                        <input ng-maxlength="32" ng-minlength="4" required type="password" name="password"
+                               ng-model="reguser.password">
+                        <div ng-messages="formSign.password.$error">
+                            <div ng-message="required">This is required.</div>
+                            <div ng-message="maxlength">The password has to be less than 30 characters long.</div>
+                            <div ng-message="minlength">The password has to be at lest 4 characters long.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container md-no-float class="md-block" ng-show="reguser.password.length>=4">
+                        <label>Confirm password</label>
+                        <md-icon><i class="material-icons">lock_outline</i></md-icon>
+                        <input ng-model="reguser.confirmPass" type="password" name="confirmPass"
+                               ng-pattern="{{reguser.password}}">
+                        <div ng-messages="formSign.password2.$error">
+                            <div ng-message="pattern">Password is not same</div>
+                        </div>
+                    </md-input-container>
+                </md-card-content>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button ng-disabled="isCanReg()"
+                               style="background-color: #3fa86b" ng-click="reg()">Register
+                    </md-button>
+                    <md-button style="background-color: #f29c77" ng-click="clearData()">Clear</md-button>
+                    <md-button style="background-color: #e76729" ng-click="SignUP()">Cancel</md-button>
+                </md-card-actions>
+            </md-card>
+        </form>
+    </div>
 </div>
 
+<footer>
+    <div class="absolute" hide-xs>
+        <img src="res/1.png"/>
+    </div>
+</footer>
 
-<script src="page/app/bower_components/angular/angular.js"></script>
-<script src="page/app/bower_components/angular-route/angular-route.js"></script>
+<script src="res/bower_components/angular/angular.js"></script>
+<script src="res/bower_components/angular-route/angular-route.js"></script>
 <script src="login.js"></script>
 
-<script src="page/app/components/version/version.js"></script>
-<script src="page/app/components/version/version-directive.js"></script>
-<script src="page/app/components/version/interpolate-filter.js"></script>
+<!--<script src="page/app/components/version/version.js"></script>-->
+<!--<script src="page/app/components/version/version-directive.js"></script>-->
+<!--<script src="page/app/components/version/interpolate-filter.js"></script>-->
 
 
 <!-- Angular Material requires Angular.js Libraries -->
 
-<script src="page/app/bower_components/angular-animate/angular-animate.js"></script>
-<script src="page/app/bower_components/angular-aria/angular-aria.js"></script>
-<script src="page/app/bower_components/angular-messages/angular-messages.js"></script>
+<script src="res/bower_components/angular-animate/angular-animate.js"></script>
+<script src="res/bower_components/angular-aria/angular-aria.js"></script>
+<script src="res/bower_components/angular-messages/angular-messages.js"></script>
 
 <!-- Angular Material Library -->
-<script src="page/app/bower_components/angular-material/angular-material.js"></script>
+<script src="res/bower_components/angular-material/angular-material.js"></script>
 
 
 </body>

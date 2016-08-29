@@ -147,7 +147,7 @@ myApp.controller('accountCtrl', [
         function addVal(someval) {
             $scope.gettingData = false;
             $http({
-                url: 'http://localhost:8080/pasman/api/',
+                url: 'http://localhost:8080/pasman/api/secure/',
                 method: "POST",
                 data: someval,
                 headers: {'Content-Type': 'application/json'}
@@ -168,7 +168,7 @@ myApp.controller('accountCtrl', [
         function deleteThis(item, values) {
             $scope.gettingData = false;
             $http({
-                url: 'http://localhost:8080/pasman/api/delete/' + item.id,
+                url: 'http://localhost:8080/pasman/api/secure/delete/' + item.id,
                 method: "DELETE",
                 headers: {'Content-Type': 'application/json'}
             }).then(function (response) {
@@ -185,7 +185,7 @@ myApp.controller('accountCtrl', [
 
         $scope.init = function () {
             $scope.gettingData = false;
-            $http.get('http://localhost:8080/pasman/api/getAll').success(function (data) {
+            $http.get('http://localhost:8080/pasman/api/secure/getAll').success(function (data) {
                 $scope.dataFromrest = data;
                 $scope.gettingData = true;
             }).error(function (data) {
@@ -197,7 +197,7 @@ myApp.controller('accountCtrl', [
         $scope.updateData = function (value) {
             $scope.gettingData = false;
             $http({
-                url: 'http://localhost:8080/pasman/api/' + value.id + '',
+                url: 'http://localhost:8080/pasman/api/secure/' + value.id + '',
                 method: "PUT",
                 data: value,
                 headers: {'Content-Type': 'application/json'}
@@ -225,7 +225,7 @@ myApp.controller('accountCtrl', [
         $scope.resetItem = resetItem;
         $scope.edit = edit;
 
-        $http.get('http://localhost:8080/pasman/api/getAll').success(function (data) {
+        $http.get('http://localhost:8080/pasman/api/secure/getAll').success(function (data) {
             $scope.dataFromrest = data;
             $scope.gettingData = true;
         }).error(function (data) {
@@ -285,8 +285,6 @@ myApp.config([
 ]);
 myApp.controller('mainCtrl', ['$scope', '$mdSidenav', '$log', '$timeout', 'accvalues', '$http',
     function ($scope, $mdSidenav, $log, $timeout, accvalues, $http) {
-
-
         $scope.types = [
             {
                 name: 'account',
@@ -341,7 +339,7 @@ myApp.controller('mainCtrl', ['$scope', '$mdSidenav', '$log', '$timeout', 'accva
         }
 
         $scope.thisuser = {};
-        $http.get('http://localhost:8080/pasman/api/user').success(function (data) {
+        $http.get('http://localhost:8080/pasman/api/secure/user').success(function (data) {
             $scope.thisuser = data;
         }).error(function (data) {
             alert("Error");

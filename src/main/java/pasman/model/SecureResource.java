@@ -8,6 +8,7 @@ import pasman.POJOs.Group;
 import pasman.POJOs.User;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -93,7 +94,8 @@ public class SecureResource {
     @DELETE
     @Path("delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public void deleteData(@PathParam("id") Integer id, @Context HttpServletRequest servletRequest) {
+    public void deleteData(@PathParam("id") Integer id, @Context HttpServletRequest servletRequest, @Context HttpSession session) {
+        //  session.setAttribute();
         User user = userDAOService.findWithName(servletRequest.getRemoteUser());
         userDAOService.deleteData(user.getId(), id);
     }

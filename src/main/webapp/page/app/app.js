@@ -185,7 +185,7 @@ myApp.controller('accountCtrl', [
 
         $scope.init = function () {
             $scope.gettingData = false;
-            $http.get('http://localhost:8080/pasman/api/secure/getAll').success(function (data) {
+            $http.get('http://localhost:8080/pasman/api/secure/getAll').success(function (data) { //resource
                 $scope.dataFromrest = data;
                 $scope.gettingData = true;
             }).error(function (data) {

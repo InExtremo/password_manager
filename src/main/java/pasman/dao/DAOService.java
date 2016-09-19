@@ -1,4 +1,4 @@
-package pasman.DAO;
+package pasman.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

@@ -1,6 +1,5 @@
-package pasman.POJOs;
+package pasman.pojos;
 
-import javax.annotation.ManagedBean;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 

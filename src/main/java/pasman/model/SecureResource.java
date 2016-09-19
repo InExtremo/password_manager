@@ -2,12 +2,12 @@ package pasman.model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pasman.DAO.DataDao;
-import pasman.DAO.GroupDao;
-import pasman.DAO.UserDao;
-import pasman.POJOs.Data;
-import pasman.POJOs.Group;
-import pasman.POJOs.UserClient;
+import pasman.dao.DataDao;
+import pasman.dao.GroupDao;
+import pasman.dao.UserDao;
+import pasman.pojos.Data;
+import pasman.pojos.Group;
+import pasman.pojos.UserClient;
 
 import javax.naming.NoPermissionException;
 import javax.servlet.http.HttpServletRequest;

@@ -22,7 +22,7 @@ public class LoginForm implements ContainerResponseFilter, ContainerRequestFilte
     @Override
     public void filter(ContainerRequestContext containerRequestContext) throws IOException {
         System.out.println("Request filter");
-        System.out.println("Headers: " + containerRequestContext.getHeaders());
+            System.out.println("Headers: " + containerRequestContext.getHeaders());
 
 
     }

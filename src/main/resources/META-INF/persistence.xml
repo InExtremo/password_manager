@@ -7,9 +7,9 @@
         <!--<non-jta-data-source>value</non-jta-data-source>-->
 
 
-        <class>pasman.pojos.Data</class>
-        <class>pasman.pojos.Group</class>
-        <class>pasman.pojos.UserClient</class>
+        <class>pasman.bean.Data</class>
+        <class>pasman.bean.Group</class>
+        <class>pasman.bean.UserClient</class>
 
         <properties>
             <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>

@@ -1,7 +1,7 @@
 package pasman.model;
 
 import pasman.dao.UserDao;
-import pasman.pojos.UserClient;
+import pasman.bean.UserClient;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;

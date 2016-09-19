@@ -1,8 +1,8 @@
 package pasman;
 
 import pasman.model.service.Cryptography;
-import pasman.pojos.Group;
-import pasman.pojos.UserClient;
+import pasman.bean.Group;
+import pasman.bean.UserClient;
 import services.IUserAuthenticationService;
 
 import javax.ejb.LocalBean;

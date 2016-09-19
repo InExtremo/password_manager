@@ -1,6 +1,6 @@
 package pasman.dao;
 
-import pasman.pojos.Group;
+import pasman.bean.Group;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

@@ -1,6 +1,6 @@
 package pasman.dao;
 
-import pasman.pojos.Data;
+import pasman.bean.Data;
 
 import javax.naming.NoPermissionException;
 import javax.persistence.EntityManager;

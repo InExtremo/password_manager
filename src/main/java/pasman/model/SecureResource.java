@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 import pasman.dao.DataDao;
 import pasman.dao.GroupDao;
 import pasman.dao.UserDao;
-import pasman.pojos.Data;
-import pasman.pojos.Group;
-import pasman.pojos.UserClient;
+import pasman.bean.Data;
+import pasman.bean.Group;
+import pasman.bean.UserClient;
 
 import javax.naming.NoPermissionException;
 import javax.servlet.http.HttpServletRequest;

@@ -5,10 +5,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
- * Created by Max on 17.08.2016.
+ * @author Created by Max on 17.08.2016.
+ *         POJO class for data
  */
 @Entity(name = "data")
-@NamedQuery(name = "Data.getAll", query = "SELECT d from data d ")//left join fetch d.user
+@NamedQueries({
+        @NamedQuery(name = "Data.findDataByUser", query = "SELECT d " + "FROM data d " + "WHERE d.userId = :user"),
+        @NamedQuery(name = "Data.getAll", query = "SELECT d from data d ")//left join fetch d.user
+})
 @XmlRootElement
 public class Data {
     private Integer id;
@@ -17,7 +21,7 @@ public class Data {
     private String login;
     private String password;
     private String description;
-    private List<User> user;
+    private Integer userId;
 
     public Data() {
     }
@@ -91,6 +95,16 @@ public class Data {
         this.description = description;
     }
 
+    @Basic
+    @Column(name = "userID")
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -99,6 +113,7 @@ public class Data {
         Data data = (Data) o;
 
         if (id != null ? !id.equals(data.id) : data.id != null) return false;
+        if (userId != null ? !userId.equals(data.userId) : data.userId != null) return false;
         if (name != null ? !name.equals(data.name) : data.name != null) return false;
         if (link != null ? !link.equals(data.link) : data.link != null) return false;
         if (login != null ? !login.equals(data.login) : data.login != null) return false;
@@ -115,15 +130,8 @@ public class Data {
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
         return result;
     }
 
-//    @ManyToMany(mappedBy = "data")
-//    public List<User> getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(List<User> user) {
-//        this.user = user;
-//    }
 }

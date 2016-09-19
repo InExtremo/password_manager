@@ -28,7 +28,7 @@ env:
     # To learn more about how to generate the:
     #
     #   * `secure` key, see:
-    #     http://docs.travis-ci.com/user/encryption-keys/
+    #     http://docs.travis-ci.com/userClient/encryption-keys/
     #
     #   * GitHub access token, see:
     #     https://help.github.com/articles/creating-an-access-token-for-command-line-use/

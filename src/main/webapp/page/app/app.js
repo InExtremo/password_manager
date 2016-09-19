@@ -178,7 +178,7 @@ myApp.controller('accountCtrl', [
                 },
                 function (response) { // optional
                     // failed
-                    alert("Problem with add data");
+                    alert("Problem with DELETE data");
                 });
         }
 
@@ -272,10 +272,9 @@ myApp.config([
         }).when('/login.html', {
             templateUrl: 'pasman/page/app/templ/login.html',
             controller: 'login'
-        })
-            .otherwise({
-                redirectTo: '/pasman/page/app/'
-            });
+        }).otherwise({
+            redirectTo: '/pasman/page/app/'
+        });
 
         $locationProvider.html5Mode({
             enabled: true,

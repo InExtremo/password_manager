@@ -423,10 +423,10 @@ AddDefaultCharset utf-8
 # Keep in mind that while you could send the `X-Frame-Options` header
 # for all of your website’s pages, this has the potential downside that
 # it forbids even non-malicious framing of your content (e.g.: when
-# users visit your website using a Google Image Search results page).
+# userClients visit your website using a Google Image Search results page).
 #
 # Nonetheless, you should ensure that you send the `X-Frame-Options`
-# header for all pages that allow a user to make a state changing
+# header for all pages that allow a userClient to make a state changing
 # operation (e.g: pages that contain one-click purchase links, checkout
 # or bank-transfer confirmation pages, pages that make permanent
 # configuration changes, etc.).
@@ -507,7 +507,7 @@ AddDefaultCharset utf-8
 # Block access to all hidden files and directories with the exception of
 # the visible content from within the `/.well-known/` hidden directory.
 #
-# These types of files usually contain user preferences or the preserved
+# These types of files usually contain userClient preferences or the preserved
 # state of an utility, and can include rather private places like, for
 # example, the `.git` or `.svn` directories.
 #
@@ -565,13 +565,13 @@ AddDefaultCharset utf-8
 
 # Force client-side SSL redirection.
 #
-# If a user types `example.com` in their browser, even if the server
+# If a userClient types `example.com` in their browser, even if the server
 # redirects them to the secure version of the website, that still leaves
 # a window of opportunity (the initial HTTP connection) for an attacker
 # to downgrade or redirect the request.
 #
 # The following header ensures that browser will ONLY connect to your
-# server via HTTPS, regardless of what the users type in the browser's
+# server via HTTPS, regardless of what the userClients type in the browser's
 # address bar.
 #
 # (!) Remove the `includeSubDomains` optional directive if the website's
@@ -593,7 +593,7 @@ AddDefaultCharset utf-8
 #
 # This reduces exposure to drive-by download attacks and cross-origin
 # data leaks, and should be left uncommented, especially if the server
-# is serving user-uploaded content or content that could potentially be
+# is serving userClient-uploaded content or content that could potentially be
 # treated as executable by the browser.
 #
 # http://www.slideshare.net/hasegawayosuke/owasp-hasegawa
@@ -613,7 +613,7 @@ AddDefaultCharset utf-8
 #     into most web browsers.
 #
 #     The filter is usually enabled by default, but in some cases it
-#     may be disabled by the user. However, in Internet Explorer for
+#     may be disabled by the userClient. However, in Internet Explorer for
 #     example, it can be re-enabled just by sending the
 #     `X-XSS-Protection` header with the value of `1`.
 #
@@ -666,7 +666,7 @@ AddDefaultCharset utf-8
 #    (e.g.: ASP.NET, PHP), and its value contains information
 #    about them (e.g.: their name, version number)
 #
-#  * doesn't provide any value as far as users are concern,
+#  * doesn't provide any value as far as userClients are concern,
 #    and in some cases, the information provided by it can
 #    be used by attackers
 #

@@ -11,7 +11,7 @@
 
     <security-role-mapping>
         <role-name>role_user</role-name>
-        <group-name>user</group-name>
+        <group-name>userClient</group-name>
     </security-role-mapping>
 
 </glassfish-web-app>

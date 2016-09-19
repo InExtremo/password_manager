@@ -1,12 +1,13 @@
 package pasman.DAO;
 
-import pasman.POJOs.Data;
-import pasman.POJOs.User;
+import pasman.POJOs.UserClient;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ public class UserDao {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DEV");
 
     // public EntityManager em = Persistence.createEntityManagerFactory("DEV").createEntityManager();
-    public void add(User object) {
+    public void add(UserClient object) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -45,100 +46,84 @@ public class UserDao {
     public void delete(Integer id) {
         EntityManager em = emf.createEntityManager();
         try {
-            em.remove(get(id, User.class));
-        } finally {
-            em.close();
-        }
-    }
-
-    public User get(Integer id, Class<User> typeParameterClass) {
-        EntityManager em = emf.createEntityManager();
-        User user = null;
-        try {
-            user = em.find(User.class, id);
-        } finally {
-            em.close();
-        }
-        return user;
-    }
-
-    public List<User> getAll() {
-        EntityManager em = emf.createEntityManager();
-        List<User> users = null;
-        try {
-            TypedQuery<User> namedQuery = (TypedQuery<User>) em.createNamedQuery("User.getAll");
-            users = namedQuery.getResultList();
-        } finally {
-            em.close();
-        }
-        return users;
-    }
-
-    public void update(User user) {
-        EntityManager em = emf.createEntityManager();
-        try {
             em.getTransaction().begin();
-            em.merge(user);
+            em.remove(get(id));
             em.getTransaction().commit();
         } finally {
             em.close();
         }
     }
 
-    public Data addData(Integer id, Data dataObj) {
+    public UserClient get(Integer id) {
         EntityManager em = emf.createEntityManager();
-        Data data = null;
-        User user = get(id, User.class);
-        if (user == null)
-            return null;
+        UserClient userClient = null;
         try {
-            em.getTransaction().begin();
-            data = new Data();
-            data.setDescription(dataObj.getDescription());
-            data.setPassword(dataObj.getPassword());
-            data.setLink(dataObj.getLink());
-            data.setLogin(dataObj.getLogin());
-            data.setName(dataObj.getName());
-            user.getData().add(data);
-            em.merge(user);
-            em.getTransaction().commit();
+            userClient = em.find(UserClient.class, id);
         } finally {
             em.close();
         }
-        return data;
+        return userClient;
     }
 
-    public void deleteData(Integer userID, Integer dataId) {
+    public List<UserClient> getAll() {
         EntityManager em = emf.createEntityManager();
-        User user = null;
+        List<UserClient> userClients = null;
+        try {
+            TypedQuery<UserClient> namedQuery = (TypedQuery<UserClient>) em.createNamedQuery("User.getAll");
+            userClients = namedQuery.getResultList();
+        } finally {
+            em.close();
+        }
+        return userClients;
+    }
+
+    public void update(UserClient userClient) {
+        EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            Data deletedData = em.find(Data.class, dataId);
-            user = get(userID, User.class);
-            user.getData().removeIf(data -> data.getId() == dataId);
-            em.merge(user);
-            em.remove(deletedData);
+            em.merge(userClient);
             em.getTransaction().commit();
         } finally {
             em.close();
         }
     }
 
-    public User findWithName(String name) {
+
+
+    public UserClient findByName(String name) {
         EntityManager em = emf.createEntityManager();
-        User user = null;
+        UserClient userClient = null;
         try {
-            em.getTransaction().begin();
-            user = (User) em.createQuery(
-                    "SELECT u FROM user u WHERE u.username = :userName")
+//            em.getTransaction().begin();
+            userClient = (UserClient) em.createQuery(
+                    "SELECT u FROM cleint u WHERE u.username = :userName")
                     .setParameter("userName", name)
                     .setMaxResults(1)
                     .getSingleResult();
-            em.getTransaction().commit();
+       //     em.getTransaction().commit();
         } finally {
             em.close();
         }
-        return user;
-
+        return userClient;
     }
+
+    /**
+     * Getting user id from session by user name. This method also cache id to session,
+     * if session contains user id then return, else find it in DB.
+     * @see #findByName(String)
+     * @param rq - HttpServletRequest request for getting current session
+     * @return String with user ID
+     */
+    public  Integer getUserID(HttpServletRequest rq){
+        UserClient userClient;
+        HttpSession session = rq.getSession();
+        if(session.getAttribute("id")==null){
+            userClient = findByName(rq.getRemoteUser());
+            session.setAttribute("id", userClient.getId());
+        } else {
+            userClient = get((Integer) session.getAttribute("id"));
+        }
+        return userClient.getId();
+    }
+
 }

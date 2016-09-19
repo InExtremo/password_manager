@@ -1,7 +1,7 @@
 package pasman.model;
 
 import pasman.DAO.UserDao;
-import pasman.POJOs.User;
+import pasman.POJOs.UserClient;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -24,7 +24,8 @@ public class PublicApi {
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt(@Context HttpServletRequest servletRequest) {
 
-        List<User> userses = userDAOService.getAll();
+        UserClient man = userDAOService.findByName(servletRequest.getRemoteUser());
+        List<UserClient> userses = userDAOService.getAll();
 
         StringBuffer user_info = new StringBuffer();
 
@@ -33,6 +34,6 @@ public class PublicApi {
         });
 
 
-        return user_info.toString();
+        return user_info.toString()+" \n "+servletRequest.getRemoteUser() + "\n"+man.getId() + "\n" + man.getPassword();
     }
 }

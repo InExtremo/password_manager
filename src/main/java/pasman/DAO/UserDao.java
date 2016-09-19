@@ -14,6 +14,7 @@ import java.util.List;
  * Created by Max on 21.08.2016.
  */
 public class UserDao {
+    //TODO need add cryptography for data
 //    @PersistenceUnit
 //    public static EntityManagerFactory emf;
 //    @PersistenceContext//(unitName = "DEV")

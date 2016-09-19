@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
 
+//TODO delete this class
 public abstract class DAOService<T> {
 
     @PersistenceUnit

@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
-import java.security.Permission;
 import java.util.List;
 
 /**
@@ -15,6 +14,8 @@ import java.util.List;
  */
 
 public class DataDao {
+
+    //TODO need add cryptography for data
 
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DEV");
 

@@ -30,7 +30,8 @@ public class UserAuthenticationService implements IUserAuthenticationService {
 
         if (users == null) users = (UserClient) em.createQuery(
                 "SELECT u FROM cleint u WHERE u.username = :userName")
-                .setParameter("userName", "max@max").getResultList().get(0);
+                .setParameter("userName", usid).getResultList().get(0);
+        //TODO add salt to password and fix login page
         String pass = Cryptography.hash256(password);
         if (users == null || !pass.equals(users.getPassword())) throw new Exception("Username or password not valid");
     }

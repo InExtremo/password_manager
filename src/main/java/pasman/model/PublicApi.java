@@ -16,10 +16,11 @@ import java.util.List;
  */
 @Path("/public")
 public class PublicApi {
+    //TODO need add sign up methods
 
     UserDao userDAOService = new UserDao();
 
-    @Path("getSomeTrash")
+    @Path("getUserData")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt(@Context HttpServletRequest servletRequest) {

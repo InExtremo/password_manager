@@ -16,11 +16,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-/**
+/*
  * Root resource (exposed at "myresource" path)
  */
 @Path("/secure")
 public class SecureResource {
+    //TODO need add cryptography for data
     private static final Logger logger = LoggerFactory.getLogger(SecureResource.class);
 
 
@@ -42,9 +43,7 @@ public class SecureResource {
         StringBuffer text = new StringBuffer();
         StringBuffer gruptext = new StringBuffer();
 
-        groups.forEach(group -> {
-            gruptext.append(group.getGroupName() + " user:" + group.getUserid());
-        });
+        groups.forEach(group -> gruptext.append(group.getGroupName() + " user:" + group.getUserid()));
 
         userses.forEach(user -> {
             text.append("\nName: "+user.getName() + " with password: " + user.getPassword() + "\n\t");
@@ -89,6 +88,7 @@ public class SecureResource {
         return dataDAOService.update(id, newData);
     }
 
+
     @DELETE
     @Path("delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -102,7 +102,8 @@ public class SecureResource {
 
 
     /**
-     * JAX-RS Get method for getting user from request context     *
+     * JAX-RS Get method for getting user from request context.
+     *
      * @param servletRequest - context param HttpServletRequest type
      * @return UserClient class object with user data.
      */

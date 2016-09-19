@@ -13,6 +13,7 @@ import java.util.List;
  */
 
 public class GroupDao {
+    //TODO need add cryptography for data
     //    @PersistenceUnit
 //    public static EntityManagerFactory emf;
 //    @PersistenceContext//(unitName = "DEV")

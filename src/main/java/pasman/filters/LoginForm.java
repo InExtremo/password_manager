@@ -10,6 +10,11 @@ import java.io.IOException;
 /**
  * Created by Max on 19.08.2016.
  */
+
+/*
+Work with filter test.
+Need to remove.
+ */
 @Provider
 public class LoginForm implements ContainerResponseFilter, ContainerRequestFilter {
     public static String USER_NAME = "";

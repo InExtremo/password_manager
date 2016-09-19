@@ -2,24 +2,11 @@
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
 
     <persistence-unit name="DEV" transaction-type="JTA">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>jdbc/PassMan</jta-data-source>
-        <!--<non-jta-data-source>value</non-jta-data-source>-->
-
-
         <class>pasman.bean.Data</class>
         <class>pasman.bean.Group</class>
         <class>pasman.bean.UserClient</class>
 
-        <properties>
-            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/passm" />
-            <property name="javax.persistence.jdbc.userClient" value="root" />
-            <property name="javax.persistence.jdbc.password" value="root" />
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
-            <!--<property name="hibernate.hbm2ddl.auto" value="none" />-->
-        </properties>
     </persistence-unit>
 
 </persistence>

@@ -70,6 +70,7 @@ public class SecureResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Data> getAll(@Context HttpServletRequest servletRequest) {
         logger.info("getAll method call by " + servletRequest.getRemoteUser());
+
         return dataDAOService.getAllByUser(userDAOService.getUserID(servletRequest));
     }
 

@@ -2,10 +2,13 @@ package pasman.dao;
 
 import pasman.bean.Group;
 
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
+import javax.transaction.*;
 import java.util.List;
 
 /**
@@ -14,6 +17,7 @@ import java.util.List;
 
 public class GroupDao {
     //TODO need add cryptography for data
+
     //    @PersistenceUnit
 //    public static EntityManagerFactory emf;
 //    @PersistenceContext//(unitName = "DEV")
@@ -28,15 +32,32 @@ public class GroupDao {
 //        }
 //        return em;
 //    }
-    //@PersistenceUnit(unitName = "DEV")
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("DEV");
+    @PersistenceUnit(unitName = "DEV")
+    EntityManagerFactory emf;
+    @Resource
+    private SessionContext sessionContext;
 
     public void add(Group object) {
         EntityManager em = emf.createEntityManager();
         try {
-            em.getTransaction().begin();
-            em.persist(object);
-            em.getTransaction().commit();
+//            em.getTransaction().begin();
+            try {
+                sessionContext.getUserTransaction().begin();
+                em.persist(object);
+                sessionContext.getUserTransaction().commit();
+            } catch (NotSupportedException e) {
+                e.printStackTrace();
+            } catch (SystemException e) {
+                e.printStackTrace();
+            } catch (HeuristicMixedException e) {
+                e.printStackTrace();
+            } catch (HeuristicRollbackException e) {
+                e.printStackTrace();
+            } catch (RollbackException e) {
+                e.printStackTrace();
+            }
+
+//            em.getTransaction().commit();
         } finally {
             em.close();
         }
@@ -45,9 +66,9 @@ public class GroupDao {
     public void delete(Integer id) {
         EntityManager em = emf.createEntityManager();
         try {
-            em.getTransaction().begin();
+//            em.getTransaction().begin();
             em.remove(get(id, Group.class));
-            em.getTransaction().commit();
+//            em.getTransaction().commit();
         } finally {
             em.close();
         }
@@ -57,9 +78,9 @@ public class GroupDao {
         EntityManager em = emf.createEntityManager();
         Group group = null;
         try {
-            em.getTransaction().begin();
+//            em.getTransaction().begin();
             group = em.find(Group.class, id);
-            em.getTransaction().commit();
+//            em.getTransaction().commit();
         } finally {
             em.close();
         }

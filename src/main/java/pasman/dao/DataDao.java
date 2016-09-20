@@ -2,11 +2,14 @@ package pasman.dao;
 
 import pasman.bean.Data;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.naming.NoPermissionException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import javax.transaction.*;
 import java.util.List;
 
 /**
@@ -22,9 +25,22 @@ public class DataDao {
     public void add(Data object) {
         EntityManager em = emf.createEntityManager();
         try {
-//            em.getTransaction().begin();
+            UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+            transaction.begin();
             em.persist(object);
-//            em.getTransaction().commit();
+            transaction.commit();
+        } catch (NotSupportedException e) {
+            e.printStackTrace();
+        } catch (NamingException e) {
+            e.printStackTrace();
+        } catch (SystemException e) {
+            e.printStackTrace();
+        } catch (RollbackException e) {
+            e.printStackTrace();
+        } catch (HeuristicMixedException e) {
+            e.printStackTrace();
+        } catch (HeuristicRollbackException e) {
+            e.printStackTrace();
         } finally {
             em.close();
         }
@@ -33,7 +49,22 @@ public class DataDao {
     public void delete(Integer id) {
         EntityManager em = emf.createEntityManager();
         try {
+            UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+            transaction.begin();
             em.remove(get(id));
+            transaction.commit();
+        } catch (NotSupportedException e) {
+            e.printStackTrace();
+        } catch (NamingException e) {
+            e.printStackTrace();
+        } catch (SystemException e) {
+            e.printStackTrace();
+        } catch (RollbackException e) {
+            e.printStackTrace();
+        } catch (HeuristicMixedException e) {
+            e.printStackTrace();
+        } catch (HeuristicRollbackException e) {
+            e.printStackTrace();
         } finally {
             em.close();
         }
@@ -66,7 +97,8 @@ public class DataDao {
         EntityManager em = emf.createEntityManager();
         Data data = null;
         try {
-//            em.getTransaction().begin();
+            UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+            transaction.begin();
             data = em.find(Data.class, id);
             data.setDescription(dataObj.getDescription());
             data.setPassword(dataObj.getPassword());
@@ -74,19 +106,31 @@ public class DataDao {
             data.setLogin(dataObj.getLogin());
             data.setName(dataObj.getName());
             em.merge(data);
-//            em.getTransaction().commit();
+            transaction.commit();
+        } catch (NotSupportedException e) {
+            e.printStackTrace();
+        } catch (NamingException e) {
+            e.printStackTrace();
+        } catch (SystemException e) {
+            e.printStackTrace();
+        } catch (RollbackException e) {
+            e.printStackTrace();
+        } catch (HeuristicMixedException e) {
+            e.printStackTrace();
+        } catch (HeuristicRollbackException e) {
+            e.printStackTrace();
         } finally {
             em.close();
         }
         return data;
     }
 
-    public  List<Data> getAllByUser(Integer userID){
+    public List<Data> getAllByUser(Integer userID) {
         EntityManager em = emf.createEntityManager();
         List<Data> datas = null;
         try {
             TypedQuery<Data> namedQuery =
-                    (TypedQuery<Data>) em.createNamedQuery("Data.findDataByUser").setParameter("user",userID);
+                    (TypedQuery<Data>) em.createNamedQuery("Data.findDataByUser").setParameter("user", userID);
             datas = namedQuery.getResultList();
         } finally {
             em.close();
@@ -98,7 +142,9 @@ public class DataDao {
         EntityManager em = emf.createEntityManager();
         Data data = null;
         try {
-//            em.getTransaction().begin();
+            UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+            transaction.begin();
+            em.joinTransaction();
             data = new Data();
             data.setDescription(dataObj.getDescription());
             data.setPassword(dataObj.getPassword());
@@ -106,8 +152,20 @@ public class DataDao {
             data.setLogin(dataObj.getLogin());
             data.setName(dataObj.getName());
             data.setUserId(userID);
-            em.persist(data);
-//            em.getTransaction().commit();
+            em.persist(em.merge(data));
+            transaction.commit();
+        } catch (NotSupportedException e) {
+            e.printStackTrace();
+        } catch (NamingException e) {
+            e.printStackTrace();
+        } catch (SystemException e) {
+            e.printStackTrace();
+        } catch (RollbackException e) {
+            e.printStackTrace();
+        } catch (HeuristicMixedException e) {
+            e.printStackTrace();
+        } catch (HeuristicRollbackException e) {
+            e.printStackTrace();
         } finally {
             em.close();
         }
@@ -117,14 +175,28 @@ public class DataDao {
     public void deleteData(Integer userID, Integer dataId) throws NoPermissionException {
         EntityManager em = emf.createEntityManager();
         try {
-//            em.getTransaction().begin();
-            Data deletedData = em.find(Data.class, dataId);
-            if(deletedData.getUserId().equals(userID)){ //check user for permission for deleting data
+            Data deletedData = get(dataId);
+            UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+            transaction.begin();
+            em.joinTransaction();
+            if (deletedData.getUserId().equals(userID)) { //check user for permission for deleting data
                 em.remove(em.merge(deletedData));
-            }else {
+            } else {
                 throw new NoPermissionException();
             }
-//            em.getTransaction().commit();
+            transaction.commit();
+        } catch (NotSupportedException e) {
+            e.printStackTrace();
+        } catch (NamingException e) {
+            e.printStackTrace();
+        } catch (SystemException e) {
+            e.printStackTrace();
+        } catch (RollbackException e) {
+            e.printStackTrace();
+        } catch (HeuristicMixedException e) {
+            e.printStackTrace();
+        } catch (HeuristicRollbackException e) {
+            e.printStackTrace();
         } finally {
             em.close();
         }

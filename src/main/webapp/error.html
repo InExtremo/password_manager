@@ -1,11 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--[if lt IE 7]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <base href="http://localhost:8080/pasman/"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Welcome to Password Manager</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="res/bower_components/html5-boilerplate/dist/css/normalize.css">
+    <link rel="stylesheet" href="res/bower_components/html5-boilerplate/dist/css/main.css">
+    <link rel="stylesheet" href="res/login.css">
+    <script src="res/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+
+    <!--<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.css'>-->
+    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+    <link rel="stylesheet" href="res/bower_components/angular-material/angular-material.css">
+
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+
 </head>
-<body>
-Something wrong
-<p><a href="/pasman">Try again</a>
+<body ng-cloak class="background">
+<div layout="column" layout-align="center center">
+    <h1><a href="/pasman/page/app/">Omg, no way, try again pls!</a></h1>
+
+    <div hide-xs>
+        <img src="res/error2.png"/>
+    </div>
+
+</div>
+
+<footer>
+
+</footer>
+
+<script src="res/bower_components/angular/angular.js"></script>
+<script src="res/bower_components/angular-route/angular-route.js"></script>
+<script src="login.js"></script>
+
+<!--<script src="page/app/components/version/version.js"></script>-->
+<!--<script src="page/app/components/version/version-directive.js"></script>-->
+<!--<script src="page/app/components/version/interpolate-filter.js"></script>-->
+
+
+<!-- Angular Material requires Angular.js Libraries -->
+
+<script src="res/bower_components/angular-animate/angular-animate.js"></script>
+<script src="res/bower_components/angular-aria/angular-aria.js"></script>
+<script src="res/bower_components/angular-messages/angular-messages.js"></script>
+
+<!-- Angular Material Library -->
+<script src="res/bower_components/angular-material/angular-material.js"></script>
+
+
 </body>
 </html>

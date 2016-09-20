@@ -26,22 +26,22 @@ myApp.controller('mainCtrl', [
         };
 
         $scope.sign = false;
-        $scope.Login = function sendData(value, $location) {
-
-            $http({
-                url: 'http://localhost:8080/pasman/' + "j_security_check?j_username=" + value.j_username + "&j_password=" + value.j_password,
-                method: "POST"
-            })
-                .then(function (response) {
-                        // success
-                        $window.location.href = 'http://localhost:8080/pasman/api/getAll';
-                        //$location.path($location.absUrl().split('?')[0]);
-                    },
-                    function (response) { // optional
-                        // failed
-                        $window.location.href = 'http://localhost:8080/pasman/error.html';
-                    });
-        };
+        // $scope.Login = function sendData(value, $location) {
+        //
+        //     $http({
+        //         url: 'http://localhost:8080/pasman/' + "j_security_check?j_username=" + value.j_username + "&j_password=" + value.j_password,
+        //         method: "POST"
+        //     })
+        //         .then(function (response) {
+        //                 // success
+        //                 $window.location.href = 'http://localhost:8080/pasman/api/getAll';
+        //                 //$location.path($location.absUrl().split('?')[0]);
+        //             },
+        //             function (response) { // optional
+        //                 // failed
+        //                 $window.location.href = 'http://localhost:8080/pasman/error.html';
+        //             });
+        // };
 
         $scope.Login2 = function sendData(value) {
             $http({

@@ -34,13 +34,17 @@
 <div layout="row" layout-align="center center">
     <div ng-hide="sign">
         <md-card md-whiteframe="9">
+            <form ng-submit="Login" method="post" action="j_security_check">
             <img ng-src="res/lock.png" class="md-card-image" alt="Washed Out">
+
             <md-card-title>
                 <md-card-title-text>
                     <span class="md-headline">Welcome</span>
                 </md-card-title-text>
             </md-card-title>
+
             <md-card-content>
+
                 <md-input-container md-no-float class="md-block">
                     <label>Email</label>
                     <md-icon><i class="material-icons">account_box</i></md-icon>
@@ -52,15 +56,18 @@
                     <input ng-model="userClient.j_password" type="password" name="j_password">
                 </md-input-container>
             </md-card-content>
+
             <md-card-actions layout="row" layout-align="end center">
-                <md-button style="background-color: #3fa86b" ng-click="Login2(userClient)">Login</md-button>
+                <md-button style="background-color: #3fa86b" type="submit" ng-click="Login">Login</md-button>
                 <md-button style="background-color: #e76729" ng-click="SignUP()">Sign up</md-button>
             </md-card-actions>
+            </form>
         </md-card>
     </div>
     <div ng-show="sign">
         <form name="formSign">
             <md-card md-whiteframe="14">
+                <form ng-submit="Sign" method="post" action="j_security_check">
                 <img ng-src="res/washedout.png" class="md-card-image" alt="Washed Out">
                 <md-card-title>
                     <md-card-title-text>
@@ -111,6 +118,7 @@
                     <md-button style="background-color: #f29c77" ng-click="clearData()">Clear</md-button>
                     <md-button style="background-color: #e76729" ng-click="SignUP()">Cancel</md-button>
                 </md-card-actions>
+                </form>
             </md-card>
         </form>
     </div>

@@ -1,14 +1,16 @@
 package pasman.model;
 
-import pasman.dao.UserDao;
+import pasman.bean.Group;
 import pasman.bean.UserClient;
+import pasman.dao.GroupDao;
+import pasman.dao.UserDao;
+import pasman.model.service.Cryptography;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**
@@ -19,6 +21,7 @@ public class PublicApi {
     //TODO need add sign up methods
 
     UserDao userDAOService = new UserDao();
+    GroupDao groupDao = new GroupDao();
 
     @Path("getUserData")
     @GET
@@ -36,5 +39,25 @@ public class PublicApi {
 
 
         return user_info.toString()+" \n "+servletRequest.getRemoteUser() + "\n"+man.getId() + "\n" + man.getPassword();
+    }
+
+    @POST
+    @Path("/parse")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String create(@FormParam("mail") String mail, @FormParam("name") String name, @FormParam("password") String password) {
+        try {
+            UserClient user = new UserClient();
+            user.setUsername(mail);
+            user.setName(name);
+            user.setPassword(Cryptography.hash256(password));
+            userDAOService.add(user);
+            Group group = new Group();
+            group.setGroupName("user");
+            group.setUserid(mail);
+            groupDao.add(group);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

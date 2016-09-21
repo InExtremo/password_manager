@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
@@ -26,30 +27,13 @@ public class PublicApi {
     @Inject
     GroupDao groupDao;
 
-    @Path("getUserData")
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getIt(@Context HttpServletRequest servletRequest) {
-
-        UserClient man = userDAOService.findByName(servletRequest.getRemoteUser());
-        List<UserClient> userses = userDAOService.getAll();
-
-        StringBuffer user_info = new StringBuffer();
-
-        userses.forEach(user -> {
-            user_info.append(user.getName() + " password: " + user.getPassword() + " username: " + user.getUsername() + "\n");
-        });
-
-
-        return user_info.toString() + " \n " + servletRequest.getRemoteUser() + "\n" + man.getId() + "\n" + man.getPassword();
-    }
-
     @POST
-    @Path("/parse")
+    @Path("/registration")
     @Produces(MediaType.APPLICATION_JSON)
-    public String create(@FormParam("mail") String mail, @FormParam("name") String name, @FormParam("password") String password) {
+    public Response create(@FormParam("mail") String mail, @FormParam("name") String name, @FormParam("password") String password) {
+        UserClient user=null;
         try {
-            UserClient user = new UserClient();
+            user = new UserClient();
             user.setUsername(mail);
             user.setName(name);
             user.setPassword(Cryptography.hash256(password));
@@ -61,6 +45,6 @@ public class PublicApi {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return "";
+        return Response.ok(user,MediaType.APPLICATION_JSON_TYPE).build();
     }
 }

@@ -53,6 +53,7 @@
         <web-resource-collection>
             <web-resource-name>All Resource</web-resource-name>
             <url-pattern>/page/app/*</url-pattern>
+            <url-pattern>/api/secure/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>role_user</role-name>

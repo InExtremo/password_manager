@@ -84,12 +84,8 @@ public class DataDao {// implements IDAO<Data>
         return data;
     }
 
-    public void deleteData(Integer userID, Integer dataId) {
+    public void deleteData(Integer dataId) {
         Data deletedData = get(dataId);
-        if (deletedData.getUserId().equals(userID)) { //check user for permission for deleting data
-            em.remove(em.merge(deletedData));
-        } else {
-            //TODO some work
-        }
+        em.remove(em.merge(deletedData));
     }
 }

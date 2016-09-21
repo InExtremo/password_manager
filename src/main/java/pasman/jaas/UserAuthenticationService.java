@@ -26,19 +26,19 @@ public class UserAuthenticationService implements IUserAuthenticationService {
     @Override
     public void validatePassword(String usid, String password) throws Exception {
         UserClient users = null;
-        users = em.find(UserClient.class, 1);
-
         if (users == null) users = (UserClient) em.createQuery(
                 "SELECT u FROM cleint u WHERE u.username = :userName")
                 .setParameter("userName", usid).getResultList().get(0);
+
         //TODO add salt to password and fix login page
+
         String pass = Cryptography.hash256(password);
         if (users == null || !pass.equals(users.getPassword())) throw new Exception("Username or password not valid");
     }
 
     @Override
     public List<String> getGroups(String usid) {
-        List<Group> groups = null;
+        List<Group> groups;
         TypedQuery<Group> namedQuery = (TypedQuery<Group>) em.createNamedQuery("Group.getAll");
         groups = namedQuery.getResultList();
         ArrayList<String> strings = new ArrayList<>();

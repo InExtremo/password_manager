@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /*
@@ -38,16 +39,12 @@ public class SecureResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt(@Context HttpServletRequest servletRequest) {
-
         List<Data> list = dataDAOService.getAll();
         List<UserClient> userses = userDAOService.getAll();
         List<Group> groups = groupDAOService.getAll();
-
         StringBuffer text = new StringBuffer();
         StringBuffer gruptext = new StringBuffer();
-
         groups.forEach(group -> gruptext.append(group.getGroupName() + " user:" + group.getUserid()));
-
         userses.forEach(user -> {
             text.append("\nName: " + user.getName() + " with password: " + user.getPassword() + "\n\t");
             list.forEach(data -> {
@@ -93,8 +90,15 @@ public class SecureResource {
     @DELETE
     @Path("delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public void deleteData(@PathParam("id") Integer dataId, @Context HttpServletRequest servletRequest) {
-        dataDAOService.deleteData(userDAOService.getUserID(servletRequest), dataId);
+    public Response deleteData(@PathParam("id") Integer dataId, @Context HttpServletRequest servletRequest) {
+        int id = userDAOService.getUserID(servletRequest);
+        Data data = dataDAOService.get(dataId);
+        if (data.getUserId().equals(id)) {
+            dataDAOService.deleteData(dataId);
+        } else {
+            return Response.status(Response.Status.METHOD_NOT_ALLOWED).entity("You have not access to this data").build();
+        }
+        return Response.ok().build();
     }
 
 

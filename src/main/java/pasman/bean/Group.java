@@ -2,6 +2,7 @@ package pasman.bean;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 /**
  * Created by Max on 17.08.2016.
@@ -9,20 +10,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity(name = "usergroup")
 @NamedQuery(name = "Group.getAll", query = "SELECT m from usergroup m")
 @XmlRootElement
-public class Group {
-    private Integer idgroup;
+public class Group implements Serializable {
+    private Integer id;
     private String userid;
     private String groupname;
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer getIdgroup() {
-        return idgroup;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdgroup(Integer idgroup) {
-        this.idgroup = idgroup;
+    public void setId(Integer idgroup) {
+        this.id = idgroup;
     }
 
     @Basic
@@ -52,7 +53,7 @@ public class Group {
 
         Group group1 = (Group) o;
 
-        if (idgroup != null ? !idgroup.equals(group1.idgroup) : group1.idgroup != null) return false;
+        if (id != null ? !id.equals(group1.id) : group1.id != null) return false;
         if (userid != null ? !userid.equals(group1.userid) : group1.userid != null) return false;
         return groupname != null ? groupname.equals(group1.groupname) : group1.groupname == null;
 
@@ -60,9 +61,18 @@ public class Group {
 
     @Override
     public int hashCode() {
-        int result = idgroup != null ? idgroup.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (userid != null ? userid.hashCode() : 0);
         result = 31 * result + (groupname != null ? groupname.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "idgroup=" + id +
+                ", userid='" + userid + '\'' +
+                ", groupname='" + groupname + '\'' +
+                '}';
     }
 }

@@ -2,6 +2,7 @@ package pasman.bean;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 /**
  * @author Created by Max on 17.08.2016.
@@ -13,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
         @NamedQuery(name = "Data.getAll", query = "SELECT d from data d ")//left join fetch d.user
 })
 @XmlRootElement
-public class Data {
+public class Data implements Serializable {
     private Integer id;
     private String name;
     private String link;
@@ -133,4 +134,16 @@ public class Data {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Data{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", link='" + link + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", description='" + description + '\'' +
+                ", userId=" + userId +
+                '}';
+    }
 }

@@ -6,7 +6,7 @@
     <groupId>pasman</groupId>
     <artifactId>pasman</artifactId>
     <packaging>war</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <name>pasman</name>
 
     <build>
@@ -57,9 +57,9 @@
         </dependency>
 
         <dependency>
-            <groupId>realm</groupId>
-            <artifactId>realm-security</artifactId>
-            <version>1</version>
+            <groupId>org.glassfish.security.realm</groupId>
+            <artifactId>realm</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
             <!--<scope>system</scope>-->
             <!--<systemPath>${project.basedir}/lib/REALM.jar</systemPath>-->
         </dependency>

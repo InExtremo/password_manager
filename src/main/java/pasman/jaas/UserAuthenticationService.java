@@ -1,4 +1,4 @@
-package pasman;
+package pasman.jaas;
 
 import pasman.model.service.Cryptography;
 import pasman.bean.Group;

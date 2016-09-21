@@ -2,6 +2,7 @@ package pasman.bean;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 /**
  * Created by Max on 17.08.2016.
@@ -9,11 +10,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity(name = "cleint")
 @NamedQueries({
-        @NamedQuery( name = "UsersByEmail", query = "SELECT u from cleint u where  u.username = ?1"),
+        @NamedQuery(name = "UsersByEmail", query = "SELECT u from cleint u where  u.username = ?1"),
         @NamedQuery(name = "User.getAll", query = "SELECT u from cleint u")
 })
 @XmlRootElement
-public class UserClient {
+public class UserClient implements Serializable {
     private Integer id;
     private String username;
     private String password;
@@ -81,5 +82,15 @@ public class UserClient {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "UserClient{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

@@ -6,6 +6,8 @@ import pasman.dao.GroupDao;
 import pasman.dao.UserDao;
 import pasman.model.service.Cryptography;
 
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -16,12 +18,13 @@ import java.util.List;
 /**
  * Created by Max on 28.08.2016.
  */
+@Stateless
 @Path("/public")
 public class PublicApi {
-    //TODO need add sign up methods
-
-    UserDao userDAOService = new UserDao();
-    GroupDao groupDao = new GroupDao();
+    @Inject
+    UserDao userDAOService;
+    @Inject
+    GroupDao groupDao;
 
     @Path("getUserData")
     @GET
@@ -38,7 +41,7 @@ public class PublicApi {
         });
 
 
-        return user_info.toString()+" \n "+servletRequest.getRemoteUser() + "\n"+man.getId() + "\n" + man.getPassword();
+        return user_info.toString() + " \n " + servletRequest.getRemoteUser() + "\n" + man.getId() + "\n" + man.getPassword();
     }
 
     @POST

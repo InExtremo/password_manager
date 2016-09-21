@@ -9,6 +9,8 @@ import pasman.bean.Data;
 import pasman.bean.Group;
 import pasman.bean.UserClient;
 
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.naming.NoPermissionException;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -19,19 +21,20 @@ import java.util.List;
 /*
  * Root resource (exposed at "myresource" path)
  */
+@Stateless
 @Path("/secure")
 public class SecureResource {
     //TODO need add cryptography for data
     private static final Logger logger = LoggerFactory.getLogger(SecureResource.class);
 
+    @Inject
+    DataDao dataDAOService;
+    @Inject
+    UserDao userDAOService;
+    @Inject
+    GroupDao groupDAOService;
 
-    DataDao dataDAOService = new DataDao();
-
-    UserDao userDAOService = new UserDao();
-
-    GroupDao groupDAOService = new GroupDao();
-
-    @Path("readDB")
+    @Path("db")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt(@Context HttpServletRequest servletRequest) {
@@ -46,13 +49,12 @@ public class SecureResource {
         groups.forEach(group -> gruptext.append(group.getGroupName() + " user:" + group.getUserid()));
 
         userses.forEach(user -> {
-            text.append("\nName: "+user.getName() + " with password: " + user.getPassword() + "\n\t");
+            text.append("\nName: " + user.getName() + " with password: " + user.getPassword() + "\n\t");
             list.forEach(data -> {
-                if(data.getUserId().equals(user.getId()))
-                text.append("\n data: \t Name:" + data.getName() + " \t Link:" + data.getLink());
+                if (data.getUserId().equals(user.getId()))
+                    text.append("\n data: \t Name:" + data.getName() + " \t Link:" + data.getLink());
             });
         });
-
         return text.toString() + " \n Groups: \n\t" + gruptext.toString();
     }
 
@@ -69,7 +71,6 @@ public class SecureResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Data> getAll(@Context HttpServletRequest servletRequest) {
         logger.info("getAll method call by " + servletRequest.getRemoteUser());
-
         return dataDAOService.getAllByUser(userDAOService.getUserID(servletRequest));
     }
 
@@ -93,11 +94,7 @@ public class SecureResource {
     @Path("delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public void deleteData(@PathParam("id") Integer dataId, @Context HttpServletRequest servletRequest) {
-        try {
-            dataDAOService.deleteData(userDAOService.getUserID(servletRequest), dataId);
-        } catch (NoPermissionException e) {
-            e.printStackTrace();
-        }
+        dataDAOService.deleteData(userDAOService.getUserID(servletRequest), dataId);
     }
 
 

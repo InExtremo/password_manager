@@ -1,29 +1,20 @@
-package pasman.bean;
+package pasman.dto;
 
-import pasman.dto.UserDto;
+import pasman.bean.UserClient;
 
-import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
 
 /**
- * Created by Max on 17.08.2016.
+ * Created by Max on 21.09.2016.
  */
+@XmlRootElement
+public class UserDto {
 
-@Entity(name = "cleint")
-@NamedQueries({
-        @NamedQuery(name = "UsersByEmail", query = "SELECT u from cleint u where  u.username = ?1"),
-        @NamedQuery(name = "User.getAll", query = "SELECT u from cleint u")
-})
-public class UserClient implements Serializable {
     private Integer id;
     private String username;
     private String password;
     private String name;
 
-    @Id
-    @Column(name = "id", unique = true, nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -32,8 +23,6 @@ public class UserClient implements Serializable {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "username")
     public String getUsername() {
         return username;
     }
@@ -42,8 +31,6 @@ public class UserClient implements Serializable {
         this.username = username;
     }
 
-    @Basic
-    @Column(name = "password")
     public String getPassword() {
         return password;
     }
@@ -52,8 +39,6 @@ public class UserClient implements Serializable {
         this.password = password;
     }
 
-    @Basic
-    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -67,7 +52,7 @@ public class UserClient implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserClient userClient = (UserClient) o;
+        UserDto userClient = (UserDto) o;
 
         if (id != null ? !id.equals(userClient.id) : userClient.id != null) return false;
         if (username != null ? !username.equals(userClient.username) : userClient.username != null) return false;
@@ -87,14 +72,20 @@ public class UserClient implements Serializable {
 
     @Override
     public String toString() {
-        return "UserClient{" +
+        return "UserDto{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 '}';
     }
-    public void setUserFromUserDto(UserDto user){
+
+    /**
+     * Method for copy all data from UserClient bean.
+     *
+     * @param user UserClient bean for copy
+     */
+    public void setUserDtoFromUser(UserClient user){
         this.setId(user.getId());
         this.setPassword(user.getPassword());
         this.setName(user.getName());

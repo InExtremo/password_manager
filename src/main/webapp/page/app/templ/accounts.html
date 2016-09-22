@@ -12,68 +12,80 @@
 <div ng-cloak ng-show="gettingData">
     <md-content class="md-padding" layout-xs="column" layout="row">
         <div flex-xs flex-gt-xs="80" layout="column ">
-            <md-card md-theme-watch ng-repeat="val in dataFromrest | filter:{$:query}" md-whiteframe="7">
+            <md-card md-theme-watch ng-repeat="data in dataFromrest | filter:{$:query}" md-whiteframe="7">
                 <md-card-title>
                     <md-card-title-text>
                         <!--<input type="checkbox" ng-model="checked"/>-->
-                        <span class="md-headline" ng-hide="editval"><h2>{{val.name}}</h2></span>
+                        <span class="md-headline" ng-hide="editval"><h2>{{data.name}}</h2></span>
                         <!--<span class="md-subhead">Large</span>-->
                         <md-input-container class="md-block" flex-gt-sm ng-show="editval">
                             <label>Name:</label>
-                            <input ng-model="val.name">
+                            <input ng-model="data.name">
                         </md-input-container>
-                        <md-card-content ng-show="editval" class="card-media">
+
+                         <md-card-content ng-show="editval" class="card-media">
+
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Link:</label>
-                                <input ng-model="val.link">
+                                <input ng-model="data.link">
                             </md-input-container>
+
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Login:</label>
-                                <input ng-model="val.login">
+                                <input ng-model="data.login">
                             </md-input-container>
+
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Password:</label>
-                                <input ng-model="val.password">
+                                <input ng-model="data.password">
                             </md-input-container>
+
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Description:</label>
-                                <input ng-model="val.description">
+                                <input ng-model="data.description">
                             </md-input-container>
+
                         </md-card-content>
 
                         <md-card-content ng-hide="editval">
                             <p>
-                                <b>Link:</b> {{val.link}}
+                                <b>Link:</b> {{data.link}}
                             </p>
                             <p>
-                                <b>Login:</b> {{val.login}}
+                                <b>Login:</b> {{data.login}}
                             </p>
                             <p>
-                                <b>Password:</b> {{val.password}}
+                                <b>Password:</b> {{data.password}}
                             </p>
                             <p>
-                                <b>Description:</b> {{val.description}}
+                                <b>Description:</b> {{data.description}}
                             </p>
                         </md-card-content>
                     </md-card-title-text>
+
                     <md-card-title-media>
                         <div class="md-media-sm card-media" md-whiteframe="7">
-                            <img ng-src="http://{{val.link}}/favicon.ico">
+                            <img ng-src="http://{{data.link}}/favicon.ico">
                         </div>
                     </md-card-title-media>
+
                 </md-card-title>
+
                 <md-card-actions layout="row" layout-align="end center">
+
                     <md-button ng-show="editval" class="md-raised " md-whiteframe="7" style="background-color: #7ecc3e"
-                               ng-click=" $log.info('Save'); updateData(val); editval = edit(editval);">Update
+                               ng-click=" $log.info('Save'); updateData(data); editval = edit(editval); ">Update
                     </md-button>
+
                     <md-button class="md-raised md-primary" md-whiteframe="7"
-                               ng-click="editval = edit(editval);
-                                $log.info('editing '+editval);"> Edit
+                               ng-click="editval = edit(editval); $log.info('editing '+editval);"> Edit
                     </md-button>
+
                     <md-button class="md-warn md-raised md-hue-2" md-whiteframe="7"
-                               ng-click="deleteThis(val, dataFromrest)">Delete
+                               ng-click="deleteThis(data, dataFromrest)">Delete
                     </md-button>
                 </md-card-actions>
+
             </md-card>
 
         </div>

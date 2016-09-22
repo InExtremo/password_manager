@@ -11,7 +11,7 @@ import java.util.Properties;
  */
 public class ReadConfigMain {
     String result = "";
-    InputStream inputStream;
+    static InputStream inputStream;
 
     public String getPropValues() throws IOException {
         try {
@@ -25,8 +25,6 @@ public class ReadConfigMain {
             } else {
                 throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
-
-            // get the property value and print it out
             String key = prop.getProperty("key");
 
             result = key;

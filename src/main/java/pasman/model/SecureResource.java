@@ -8,15 +8,17 @@ import pasman.dao.UserDao;
 import pasman.bean.Data;
 import pasman.bean.Group;
 import pasman.bean.UserClient;
+import pasman.dto.DataDto;
+import pasman.dto.UserDto;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.naming.NoPermissionException;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -26,7 +28,7 @@ import java.util.List;
 @Path("/secure")
 public class SecureResource {
     //TODO need add cryptography for data
-    private static final Logger logger = LoggerFactory.getLogger(SecureResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecureResource.class);
 
     @Inject
     DataDao dataDAOService;
@@ -35,30 +37,10 @@ public class SecureResource {
     @Inject
     GroupDao groupDAOService;
 
-    @Path("db")
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getIt(@Context HttpServletRequest servletRequest) {
-        List<Data> list = dataDAOService.getAll();
-        List<UserClient> userses = userDAOService.getAll();
-        List<Group> groups = groupDAOService.getAll();
-        StringBuffer text = new StringBuffer();
-        StringBuffer gruptext = new StringBuffer();
-        groups.forEach(group -> gruptext.append(group.getGroupName() + " user:" + group.getUserid()));
-        userses.forEach(user -> {
-            text.append("\nName: " + user.getName() + " with password: " + user.getPassword() + "\n\t");
-            list.forEach(data -> {
-                if (data.getUserId().equals(user.getId()))
-                    text.append("\n data: \t Name:" + data.getName() + " \t Link:" + data.getLink());
-            });
-        });
-        return text.toString() + " \n Groups: \n\t" + gruptext.toString();
-    }
-
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent
-     * to the client as "text/plain" media type.
+     * to the client as "APPLICATION_JSON" media type.
      *
      * @param servletRequest - context param HttpServletRequest type
      * @return String that will be returned as a text/plain response.
@@ -66,27 +48,65 @@ public class SecureResource {
     @Path("getAll")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Data> getAll(@Context HttpServletRequest servletRequest) {
-        logger.info("getAll method call by " + servletRequest.getRemoteUser());
-        return dataDAOService.getAllByUser(userDAOService.getUserID(servletRequest));
+    public List<DataDto> getAll(@Context HttpServletRequest servletRequest) {
+        LOGGER.info("getAll method call by " + servletRequest.getRemoteUser());
+        List<DataDto> list = new ArrayList<>();
+        dataDAOService.getAllByUser(userDAOService.getUserID(servletRequest)).forEach(v -> {
+            DataDto data = new DataDto();
+            data.setDataDtoFromData(v);
+            list.add(data);
+        });
+        return list;
     }
 
+    /**
+     * Method handling HTTP POST requests. The returned object will be sent
+     * to the client as "APPLICATION_JSON" media type.
+     *
+     * @param newData        data object from POST
+     * @param servletRequest
+     * @return
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Data addData(Data newData, @Context HttpServletRequest servletRequest) {
-        return dataDAOService.addData(userDAOService.getUserID(servletRequest), newData);
+    public DataDto addData(DataDto newData, @Context HttpServletRequest servletRequest) {
+        Data data = new Data();
+        DataDto dataDto = new DataDto();
+        data.setDataFromDTO(newData);
+        dataDto.setDataDtoFromData(dataDAOService.addData(userDAOService.getUserID(servletRequest), data));
+        return dataDto;
     }
 
+    /**
+     * Update user data by PUT method.
+     *
+     * @param id      Data id
+     * @param newData new data for updating
+     * @return updated data
+     */
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Data updateData(@PathParam("id") Integer id, Data newData) {
-        return dataDAOService.update(id, newData);
+    public DataDto updateData(@PathParam("id") Integer id, DataDto newData) {
+        LOGGER.info("UPDATE PUT -> id:" + id + " geted dataDto: " + newData);
+        DataDto dataDto = new DataDto();
+        Data data = new Data();
+
+        data.setDataFromDTO(newData);
+        dataDto.setDataDtoFromData(dataDAOService.update(id, data));
+
+        return dataDto;
     }
 
-
+    /**
+     * Delete selected data by id.
+     *
+     * @param dataId         id from selected data
+     * @param servletRequest HttpServletRequest for getting user id
+     * @return Response with status of removing.
+     */
     @DELETE
     @Path("delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -103,18 +123,20 @@ public class SecureResource {
 
 
     /**
-     * JAX-RS Get method for getting user from request context.
+     * JAX-RS Get method for getting current user from request context.
      *
      * @param servletRequest - context param HttpServletRequest type
-     * @return UserClient class object with user data.
+     * @return UserDTO class object with user data.
      */
     @GET
     @Path("user")
     @Produces(MediaType.APPLICATION_JSON)
-    public UserClient getCurrentUser(@Context HttpServletRequest servletRequest) {
+    public UserDto getCurrentUser(@Context HttpServletRequest servletRequest) {
         UserClient userClient;
         userClient = userDAOService.get(userDAOService.getUserID(servletRequest));
-        return userClient;
+        UserDto userDto = new UserDto();
+        userDto.setUserDtoFromUser(userClient);
+        return userDto;
     }
 
 

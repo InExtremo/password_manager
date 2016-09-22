@@ -20,6 +20,13 @@ public class Cryptography {
     private static final Logger logger = LoggerFactory.getLogger(Cryptography.class);
 
 
+    /**
+     * Encryption function for encrypting data.
+     *
+     * @param key our secret kay
+     * @param value data for encryption
+     * @return encrypted data as String
+     */
     public static String[] encrypt(String key, String value){
         String[] strings = new String[0];
         try {
@@ -58,7 +65,7 @@ public class Cryptography {
     }
 
     /**
-     * Decryption function
+     * Decryption function.
      *
      * @param key        - key for decrypt
      * @param initVector - initialization vector
@@ -66,7 +73,6 @@ public class Cryptography {
      * @return {@code String obj} if not {@code null}
      * @throws NullPointerException if {@code obj} is {@code null}
      */
-
     public static String decrypt(String key, String initVector, String encrypted) {
         logger.debug("Start decrypt wih pass: " + key);
         try {
@@ -97,20 +103,36 @@ public class Cryptography {
         return null;
     }
 
+    /**
+     * SHA-256 algorithm realisation for hashing data.
+     *
+     * @param data data for hashing
+     * @return String with hashing data as HEX
+     * @throws NoSuchAlgorithmException throws if not found instance of SHA-256 realisation.
+     */
     public static String hash256(String data) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(data.getBytes());
         return bytesToHex(md.digest());
     }
+
+    /**
+     * Converting bytes data to HEX String.
+     *
+     * @param bytes data for hexing as byte array
+     * @return String with hashing data as HEX
+     */
     public static String bytesToHex(byte[] bytes) {
         StringBuffer result = new StringBuffer();
         for (byte byt : bytes) result.append(Integer.toString((byt & 0xff) + 0x100, 16).substring(1));
         return result.toString();
     }
 
+
     public static void main(String[] args) {
         String key = "Bar12345Bar12345"; // 128 bit key
         String initVector = "RandomInitVector"; // 16 bytes IV
+
         String[] strings = encrypt(key,"1 World 33");
         System.out.println(decrypt(key ,strings[1],strings[0]));
 

@@ -1,24 +1,19 @@
-package pasman.bean;
+package pasman.dto;
 
-import pasman.dto.GroupDto;
+import pasman.bean.Group;
 
-import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
 
 /**
- * Created by Max on 17.08.2016.
+ * Created by Max on 21.09.2016.
  */
-@Entity(name = "usergroup")
-@NamedQuery(name = "Group.getAll", query = "SELECT m from usergroup m")
-public class Group implements Serializable {
+@XmlRootElement
+public class GroupDto {
+
     private Integer id;
     private String userid;
     private String groupname;
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -27,8 +22,6 @@ public class Group implements Serializable {
         this.id = idgroup;
     }
 
-    @Basic
-    @Column(name = "userid")
     public String getUserid() {
         return userid;
     }
@@ -37,8 +30,6 @@ public class Group implements Serializable {
         this.userid = userid;
     }
 
-    @Basic
-    @Column(name = "groupName")
     public String getGroupName() {
         return groupname;
     }
@@ -52,12 +43,11 @@ public class Group implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Group group1 = (Group) o;
+        GroupDto group1 = (GroupDto) o;
 
         if (id != null ? !id.equals(group1.id) : group1.id != null) return false;
         if (userid != null ? !userid.equals(group1.userid) : group1.userid != null) return false;
         return groupname != null ? groupname.equals(group1.groupname) : group1.groupname == null;
-
     }
 
     @Override
@@ -70,16 +60,21 @@ public class Group implements Serializable {
 
     @Override
     public String toString() {
-        return "Group{" +
+        return "GroupDto{" +
                 "idgroup=" + id +
                 ", userid='" + userid + '\'' +
                 ", groupname='" + groupname + '\'' +
                 '}';
     }
 
-    public void setFromDto(GroupDto dto){
-        this.setId(dto.getId());
-        this.setUserid(dto.getUserid());
-        this.setGroupName(dto.getGroupName());
+    /**
+     * Method for copy all data from Group bean.
+     *
+     * @param group Group bean for copy data.
+     */
+    public void setFromGroup(Group group){
+        this.setId(group.getId());
+        this.setUserid(group.getUserid());
+        this.setGroupName(group.getGroupName());
     }
 }

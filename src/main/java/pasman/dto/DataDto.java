@@ -1,21 +1,14 @@
-package pasman.bean;
+package pasman.dto;
 
-import pasman.dto.DataDto;
+import pasman.bean.Data;
 
-import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
 
 /**
- * @author Created by Max on 17.08.2016.
- *         POJO class for data
+ * Created by Max on 21.09.2016.
  */
-@Entity(name = "data")
-@NamedQueries({
-        @NamedQuery(name = "Data.findDataByUser", query = "SELECT d " + "FROM data d " + "WHERE d.userId = :user"),
-        @NamedQuery(name = "Data.getAll", query = "SELECT d from data d ")//left join fetch d.user
-})
-public class Data implements Serializable {
+@XmlRootElement
+public class DataDto {
     private Integer id;
     private String name;
     private String link;
@@ -24,28 +17,19 @@ public class Data implements Serializable {
     private String description;
     private Integer userId;
 
-    public Data() {
+    /**
+     * Method for copy all data from Data bean.
+     *
+     * @param data Data bean for copy data.
+     */
+    public void setDataDtoFromData(Data data) {
+        this.setDescription(data.getDescription());
+        this.setPassword(data.getPassword());
+        this.setLink(data.getLink());
+        this.setLogin(data.getLogin());
+        this.setName(data.getName());
     }
 
-    public void setData(Data newData) {
-        this.setDescription(newData.getDescription());
-        this.setPassword(newData.getPassword());
-        this.setLink(newData.getLink());
-        this.setLogin(newData.getLogin());
-        this.setName(newData.getName());
-    }
-
-    public void setDataFromDTO(DataDto dataDto) {
-        this.setDescription(dataDto.getDescription());
-        this.setPassword(dataDto.getPassword());
-        this.setLink(dataDto.getLink());
-        this.setLogin(dataDto.getLogin());
-        this.setName(dataDto.getName());
-    }
-
-    @Id
-    @Column(name = "id", unique = true, nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -54,8 +38,6 @@ public class Data implements Serializable {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -64,8 +46,6 @@ public class Data implements Serializable {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "link")
     public String getLink() {
         return link;
     }
@@ -74,8 +54,6 @@ public class Data implements Serializable {
         this.link = link;
     }
 
-    @Basic
-    @Column(name = "login")
     public String getLogin() {
         return login;
     }
@@ -84,8 +62,6 @@ public class Data implements Serializable {
         this.login = login;
     }
 
-    @Basic
-    @Column(name = "password")
     public String getPassword() {
         return password;
     }
@@ -94,8 +70,6 @@ public class Data implements Serializable {
         this.password = password;
     }
 
-    @Basic
-    @Column(name = "description")
     public String getDescription() {
         return description;
     }
@@ -104,8 +78,6 @@ public class Data implements Serializable {
         this.description = description;
     }
 
-    @Basic
-    @Column(name = "userID")
     public Integer getUserId() {
         return userId;
     }
@@ -119,7 +91,7 @@ public class Data implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Data data = (Data) o;
+        DataDto data = (DataDto) o;
 
         if (id != null ? !id.equals(data.id) : data.id != null) return false;
         if (userId != null ? !userId.equals(data.userId) : data.userId != null) return false;
@@ -145,7 +117,7 @@ public class Data implements Serializable {
 
     @Override
     public String toString() {
-        return "Data{" +
+        return "DataDto{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", link='" + link + '\'' +

@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Stateless
 @LocalBean
-public class DataDao {// implements IDAO<Data>
+public class DataDao {
 
     @PersistenceUnit(unitName = "DEV")
     EntityManagerFactory DEV;

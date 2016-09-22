@@ -51,68 +51,7 @@ myApp.controller('notesCtrl', [
 myApp.controller('accountCtrl', [
     '$scope', '$http', '$location', '$mdBottomSheet', '$log', 'accvalues',
     function ($scope, $http, $location, $mdBottomSheet, $log, accvalues) {
-        // $scope.values = [
-        //     {
-        //         name: "somename",
-        //         link: "vk.com",
-        //         login: "login",
-        //         pass: "pass"
-        //     },
-        //     {
-        //         name: "google",
-        //         link: "google.com",
-        //         login: "login2",
-        //         pass: "pass2"
-        //     },
-        //     {
-        //         name: "somename",
-        //         link: "vk.com",
-        //         login: "login",
-        //         pass: "pass"
-        //     },
-        //     {
-        //         name: "somename",
-        //         link: "vk.com",
-        //         login: "login",
-        //         pass: "pass"
-        //     },
-        //     {
-        //         name: "somename",
-        //         link: "vk.com",
-        //         login: "login",
-        //         pass: "pass"
-        //     },
-        //     {
-        //         name: "somename",
-        //         link: "vk.com",
-        //         login: "login",
-        //         pass: "pass"
-        //     },
-        //     {
-        //         name: "somename",
-        //         link: "vk.com",
-        //         login: "login",
-        //         pass: "pass"
-        //     }
-        // ]
 
-        // function openButtonSheet() {
-        //     $mdBottomSheet.show({
-        //         contorller:SheetCtrl,
-        //         templateUrl:'templ/botsh.html',
-        //         parent:angular.element(document.querySelector('#content'))
-        //     });
-        //
-        //     function SheetCtrl() {
-        //         this.items=[
-        //             {name:'phone',                icon: 'phone',                icon_url: 'svg/phone.svg'},
-        //             {name:'phone2',               icon: 'phone2',               icon_url: 'svg/phone2.svg'}
-        //         ];
-        //         this.performAction = function (action) {
-        //             $mdBottomSheet.hide();
-        //         };
-        //     }
-        // }$scope.openButtonSheet = openButtonSheet;
         $scope.newitem = {
             //id: 0,
             description: "",
@@ -124,14 +63,7 @@ myApp.controller('accountCtrl', [
 
 
         function resetItem() {
-            $scope.newitem = {
-
-                description: "",
-                link: "",
-                login: "",
-                name: "",
-                password: ""
-            };
+            $scope.newitem = {};
             // return false;
         }
 
@@ -195,22 +127,22 @@ myApp.controller('accountCtrl', [
         };
 
         $scope.updateData = function (value) {
+            $log.info("data:"+value.id);
             $scope.gettingData = false;
             $http({
-                url: 'http://localhost:8080/pasman/api/secure/' + value.id + '',
+                url: 'http://localhost:8080/pasman/api/secure/' + value.id,
                 method: "PUT",
                 data: value,
                 headers: {'Content-Type': 'application/json'}
-            })
-                .then(function (response) {
-                        // succes
-                        $scope.editval = false;
-                        $scope.gettingData = true;
-                    },
-                    function (response) { // optional
-                        // failed
-                        alert("Problem update data");
-                    });
+            }).then(function (response) {
+                    // succes
+                    $scope.editval = false;
+                    $scope.gettingData = true;
+                },
+                function (response) { // optional
+                    // failed
+                    //  alert("Problem update data");
+                });
         };
 
 

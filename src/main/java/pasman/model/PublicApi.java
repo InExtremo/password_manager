@@ -4,6 +4,7 @@ import pasman.bean.Group;
 import pasman.bean.UserClient;
 import pasman.dao.GroupDao;
 import pasman.dao.UserDao;
+import pasman.dto.UserDto;
 import pasman.model.service.Cryptography;
 
 import javax.ejb.Stateless;
@@ -27,6 +28,15 @@ public class PublicApi {
     @Inject
     GroupDao groupDao;
 
+
+    /**
+     * Public registration method.
+     *
+     * @param mail user e-mail from client side
+     * @param name user name from client side
+     * @param password user password from client side
+     * @return Response with user data as JSON
+     */
     @POST
     @Path("/registration")
     @Produces(MediaType.APPLICATION_JSON)
@@ -45,6 +55,9 @@ public class PublicApi {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return Response.ok(user,MediaType.APPLICATION_JSON_TYPE).build();
+        UserClient userClient = userDAOService.findByName(user.getUsername());
+        UserDto userDto = new UserDto();
+        userDto.setUserDtoFromUser(userClient);
+        return Response.ok(userDto,MediaType.APPLICATION_JSON_TYPE).build();
     }
 }
